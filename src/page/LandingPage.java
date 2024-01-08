@@ -3,7 +3,7 @@ package page;
 import main.Main;
 import asset.AssetFactory;
 import component.ComponentFactory;
-import container.PanelFactory;
+import panel.PanelFactory;
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,6 +19,7 @@ public class LandingPage extends JFrame {
         this.cf = componentFactory;
         this.af = assetFactory;
 
+        pf.headerContainer.add(cf.titleText);
         pf.content.add(pf.headerContainer, BorderLayout.NORTH);
 
         this.add(pf.content);
