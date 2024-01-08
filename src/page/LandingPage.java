@@ -1,6 +1,7 @@
 package page;
 
 import main.Main;
+import database.DatabaseManager;
 import asset.AssetFactory;
 import component.ComponentFactory;
 import panel.PanelFactory;
@@ -8,13 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LandingPage extends JFrame {
+    DatabaseManager dm;
     PanelFactory pf;
     ComponentFactory cf;
     AssetFactory af;
 
-    public LandingPage(PanelFactory panelFactory,
-                       ComponentFactory componentFactory,
-                       AssetFactory assetFactory) {
+    public LandingPage(DatabaseManager databaseManager, PanelFactory panelFactory,
+                       ComponentFactory componentFactory, AssetFactory assetFactory) {
+        this.dm = databaseManager;
         this.pf = panelFactory;
         this.cf = componentFactory;
         this.af = assetFactory;
@@ -39,17 +41,16 @@ public class LandingPage extends JFrame {
         pf.bodyPanel.add(pf.catalogRowContainerList.get(0));
         pf.bodyPanel.add(pf.catalogRowContainerList.get(1));
 
-        pf.content.add(pf.headerPanel, BorderLayout.NORTH);
-        pf.content.add(pf.bodyPanel, BorderLayout.CENTER);
-        pf.content.add(pf.footerPanel, BorderLayout.SOUTH);
+        pf.contentPanel.add(pf.headerPanel, BorderLayout.NORTH);
+        pf.contentPanel.add(pf.bodyPanel, BorderLayout.CENTER);
+        pf.contentPanel.add(pf.footerPanel, BorderLayout.SOUTH);
 
-        this.add(pf.content);
+        this.add(pf.contentPanel);
 
         this.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setUndecorated(true);
         this.setResizable(false);
-        this.setVisible(true);
     }
 }
