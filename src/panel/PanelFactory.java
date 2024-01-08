@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PanelFactory {
-    public JPanel content = new JPanel();
+    public JPanel contentPanel = new JPanel();
     public JPanel headerPanel = new JPanel();
     public JPanel bodyPanel = new JPanel();
     public JPanel footerPanel = new JPanel();
@@ -14,7 +14,7 @@ public class PanelFactory {
     public ArrayList<Container> catalogContainerList = new ArrayList<>();
 
     public PanelFactory() {
-        content.setLayout(new BorderLayout(0, 0));
+        contentPanel.setLayout(new BorderLayout(0, 0));
 
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         headerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
