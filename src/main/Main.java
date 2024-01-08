@@ -2,7 +2,7 @@ package main;
 
 import asset.AssetFactory;
 import component.ComponentFactory;
-import container.PanelFactory;
+import panel.PanelFactory;
 import page.LandingPage;
 
 import javax.swing.*;
