@@ -19,12 +19,32 @@ public class LandingPage extends JFrame {
         this.cf = componentFactory;
         this.af = assetFactory;
 
-        pf.headerContainer.add(cf.titleText);
-        pf.content.add(pf.headerContainer, BorderLayout.NORTH);
+        pf.headerPanel.add(cf.titleText);
+
+        for (int i = 0; i < cf.catalogButtonList.size(); i++) {
+            pf.catalogContainerList.get(i).add(cf.catalogButtonList.get(i));
+        }
+
+        pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(0));
+        pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(1));
+        pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(2));
+        pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(3));
+
+        pf.catalogRowContainerList.get(1).add(pf.catalogContainerList.get(4));
+        pf.catalogRowContainerList.get(1).add(pf.catalogContainerList.get(5));
+        pf.catalogRowContainerList.get(1).add(pf.catalogContainerList.get(6));
+        pf.catalogRowContainerList.get(1).add(pf.catalogContainerList.get(7));
+
+        pf.bodyPanel.add(pf.catalogRowContainerList.get(0));
+        pf.bodyPanel.add(pf.catalogRowContainerList.get(1));
+
+        pf.content.add(pf.headerPanel, BorderLayout.NORTH);
+        pf.content.add(pf.bodyPanel, BorderLayout.CENTER);
+        pf.content.add(pf.footerPanel, BorderLayout.SOUTH);
 
         this.add(pf.content);
 
-        this.setBounds(-10, 140, Main.WIDTH, Main.HEIGHT);
+        this.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setUndecorated(true);
