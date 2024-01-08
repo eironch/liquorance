@@ -23,6 +23,7 @@ public class LandingPage extends JFrame {
 
         for (int i = 0; i < cf.catalogButtonList.size(); i++) {
             pf.catalogContainerList.get(i).add(cf.catalogButtonList.get(i));
+            pf.catalogContainerList.get(i).add(cf.catalogNameList.get(i));
         }
 
         pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(0));
