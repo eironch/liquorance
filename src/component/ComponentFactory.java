@@ -27,14 +27,12 @@ public class ComponentFactory {
 
         for (int i = 0; i < 8; i++) {
             catalogButtonList.add(new JButton());
-            catalogButtonList.get(i).setText("Liquor " + i + " Button");
             catalogButtonList.get(i).setPreferredSize(new Dimension(320, 260));
             catalogButtonList.get(i).setFocusable(false);
         }
 
         for (int i = 0; i < 8; i++) {
             catalogNameList.add(new JLabel());
-            catalogNameList.get(i).setText("Liquor " + i + " Name");
             catalogNameList.get(i).setFont(toHelvetica(15));
             catalogNameList.get(i).setPreferredSize(new Dimension(320, 60));
             catalogNameList.get(i).setHorizontalAlignment(JLabel.CENTER);
