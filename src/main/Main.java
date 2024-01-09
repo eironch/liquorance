@@ -3,8 +3,9 @@ package main;
 import database.DatabaseManager;
 import asset.AssetFactory;
 import component.ComponentFactory;
+import view.liquorView;
 import panel.PanelFactory;
-import page.LandingPage;
+
 import javax.swing.*;
 
 public class Main {
@@ -16,9 +17,13 @@ public class Main {
     final static AssetFactory assetFactory = new AssetFactory();
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new LandingPage(
-                databaseManager, panelFactory, componentFactory,
-                assetFactory).setVisible(true)
-        );
+        SwingUtilities.invokeLater(() -> {
+//            new menuView(
+//                    databaseManager, panelFactory, componentFactory,
+//                    assetFactory).setVisible(true);
+            new liquorView(
+                    databaseManager, panelFactory, componentFactory,
+                    assetFactory).setVisible(true);
+        });
     }
 }
