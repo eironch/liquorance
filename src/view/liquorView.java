@@ -22,6 +22,8 @@ public class liquorView extends JFrame {
         this.cf = componentFactory;
         this.af = assetFactory;
 
+        pf.handleLiquorView();
+
         pf.headerContainerList.get(0).add(cf.changeViewButton);
         pf.headerContainerList.get(1).add(cf.titleText);
         pf.headerContainerList.get(2).add(cf.orderButton);
