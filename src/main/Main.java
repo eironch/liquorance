@@ -5,6 +5,7 @@ import asset.AssetFactory;
 import component.ComponentFactory;
 import view.liquorView;
 import panel.PanelFactory;
+import view.menuView;
 
 import javax.swing.*;
 
@@ -18,12 +19,12 @@ public class Main {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-//            new menuView(
-//                    databaseManager, panelFactory, componentFactory,
-//                    assetFactory).setVisible(true);
-            new liquorView(
+            new menuView(
                     databaseManager, panelFactory, componentFactory,
                     assetFactory).setVisible(true);
+//            new liquorView(
+//                    databaseManager, panelFactory, componentFactory,
+//                    assetFactory).setVisible(true);
         });
     }
 }
