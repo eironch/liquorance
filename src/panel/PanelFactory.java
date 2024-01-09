@@ -11,9 +11,17 @@ public class PanelFactory {
     public JPanel bodyPanel = new JPanel();
     public JPanel footerPanel = new JPanel();
     public ArrayList<Container> headerContainerList = new ArrayList<>();
+
+    // ------------- menu view --------------
     public ArrayList<Container> catalogRowContainerList = new ArrayList<>();
     public ArrayList<Container> catalogContainerList = new ArrayList<>();
     public ArrayList<Container> categoryContainerList = new ArrayList<>();
+
+
+    // ------------ liquor view --------------
+    public JButton liquorButton = new JButton();
+
+
 
     public PanelFactory() {
         contentPanel.setLayout(new BorderLayout(0, 0));
@@ -21,8 +29,10 @@ public class PanelFactory {
         headerPanel.setLayout(new GridLayout(1, 3, 0, 0));
         headerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
         headerPanel.setBackground(Color.DARK_GRAY);
+    }
 
-        bodyPanel.setLayout(new GridLayout(2, 1, 0,0));
+    public void handleMenuView() {
+        bodyPanel.setLayout(new GridLayout(2, 1, 0, 0));
         bodyPanel.setPreferredSize(new Dimension(Main.WIDTH, 200));
         bodyPanel.setBackground(Color.LIGHT_GRAY);
 
@@ -51,5 +61,11 @@ public class PanelFactory {
             categoryContainerList.add(new Container());
             categoryContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         }
+    }
+
+    public void handleLiquorView() {
+        bodyPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        bodyPanel.setPreferredSize(new Dimension(Main.WIDTH, 200));
+        bodyPanel.setBackground(Color.LIGHT_GRAY);
     }
 }
