@@ -1,4 +1,4 @@
-package page;
+package view;
 
 import main.Main;
 import database.DatabaseManager;
@@ -8,20 +8,30 @@ import panel.PanelFactory;
 import javax.swing.*;
 import java.awt.*;
 
-public class LandingPage extends JFrame {
+public class menuView extends JFrame {
     DatabaseManager dm;
     PanelFactory pf;
     ComponentFactory cf;
     AssetFactory af;
 
-    public LandingPage(DatabaseManager databaseManager, PanelFactory panelFactory,
-                       ComponentFactory componentFactory, AssetFactory assetFactory) {
+    public menuView(DatabaseManager databaseManager, PanelFactory panelFactory,
+                    ComponentFactory componentFactory, AssetFactory assetFactory) {
         this.dm = databaseManager;
         this.pf = panelFactory;
         this.cf = componentFactory;
         this.af = assetFactory;
 
-        pf.headerPanel.add(cf.titleText);
+        pf.headerContainerList.get(0).add(cf.changeViewButton);
+        pf.headerContainerList.get(1).add(cf.titleText);
+        pf.headerContainerList.get(2).add(cf.orderButton);
+
+        for (int i = 0; i < pf.headerContainerList.size(); i++) {
+            pf.headerPanel.add(pf.headerContainerList.get(i));
+        }
+
+        for (int i = 0; i < cf.categoryButtonList.size(); i++) {
+            pf.categoryContainerList.get(i).add(cf.categoryButtonList.get(i));
+        }
 
         for (int i = 0; i < cf.catalogButtonList.size(); i++) {
             pf.catalogContainerList.get(i).add(cf.catalogButtonList.get(i));
@@ -40,6 +50,10 @@ public class LandingPage extends JFrame {
 
         pf.bodyPanel.add(pf.catalogRowContainerList.get(0));
         pf.bodyPanel.add(pf.catalogRowContainerList.get(1));
+
+        for (int i = 0; i < pf.categoryContainerList.size(); i++) {
+            pf.footerPanel.add(pf.categoryContainerList.get(i));
+        }
 
         pf.contentPanel.add(pf.headerPanel, BorderLayout.NORTH);
         pf.contentPanel.add(pf.bodyPanel, BorderLayout.CENTER);
