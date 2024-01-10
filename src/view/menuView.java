@@ -1,6 +1,5 @@
 package view;
 
-import main.Main;
 import database.DatabaseManager;
 import asset.AssetFactory;
 import component.ComponentFactory;
@@ -11,99 +10,112 @@ import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class menuView extends JFrame {
-    DatabaseManager dm;
-    PanelFactory pf;
-    ComponentFactory cf;
-    AssetFactory af;
+public class menuView {
+    JFrame f;
+    DatabaseManager d;
+    PanelFactory p;
+    ComponentFactory c;
+    AssetFactory a;
     Category currentCategory = Category.BEER;
     String[] categoryList = {"Beer", "Cocktail", "Wine", "Whiskey", "Rum"};
-    LinkedList<LinkedList<Object>> catalogMenuList = new LinkedList<>();
+    LinkedList<LinkedList<Object>> catalogList = new LinkedList<>();
+    LinkedList<LinkedList<Object>> orderList = new LinkedList<>();
 
-    public menuView(DatabaseManager databaseManager, PanelFactory panelFactory,
+    public menuView(JFrame frame, DatabaseManager databaseManager, PanelFactory panelFactory,
                     ComponentFactory componentFactory, AssetFactory assetFactory) {
-        this.dm = databaseManager;
-        this.pf = panelFactory;
-        this.cf = componentFactory;
-        this.af = assetFactory;
+        this.f = frame;
+        this.d = databaseManager;
+        this.p = panelFactory;
+        this.c = componentFactory;
+        this.a = assetFactory;
 
-        pf.handleMenuView();
+        p.handleMenuView();
 
-        pf.headerContainerList.get(0).add(cf.changeViewButton);
-        pf.headerContainerList.get(1).add(cf.titleText);
-        pf.headerContainerList.get(2).add(cf.orderButton);
+        c.orderButton.addActionListener(this::confirmOrder);
 
-        for (int i = 0; i < pf.headerContainerList.size(); i++) {
-            pf.headerPanel.add(pf.headerContainerList.get(i));
+        p.headerContainerList.get(0).add(c.changeViewButton);
+        p.headerContainerList.get(1).add(c.titleText);
+        p.headerContainerList.get(2).add(c.orderButton);
+
+        for (int i = 0; i < p.headerContainerList.size(); i++) {
+            p.headerPanel.add(p.headerContainerList.get(i));
         }
 
         handleMenuViewButton();
         updateContent();
 
-        pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(0));
-        pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(1));
-        pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(2));
-        pf.catalogRowContainerList.get(0).add(pf.catalogContainerList.get(3));
-
-        pf.catalogRowContainerList.get(1).add(pf.catalogContainerList.get(4));
-        pf.catalogRowContainerList.get(1).add(pf.catalogContainerList.get(5));
-        pf.catalogRowContainerList.get(1).add(pf.catalogContainerList.get(6));
-        pf.catalogRowContainerList.get(1).add(pf.catalogContainerList.get(7));
-
-        pf.bodyPanel.add(pf.catalogRowContainerList.get(0));
-        pf.bodyPanel.add(pf.catalogRowContainerList.get(1));
-
-        for (int i = 0; i < cf.categoryButtonList.size(); i++) {
-            pf.categoryContainerList.get(i).add(cf.categoryButtonList.get(i));
-            cf.categoryButtonList.get(i).addActionListener(this::changeCategory);
+        for (int i = 0; i < c.catalogButtonList.size(); i++) {
+            c.catalogButtonList.get(i).addActionListener(this::addToOrder);
         }
 
-        for (int i = 0; i < pf.categoryContainerList.size(); i++) {
-            pf.footerPanel.add(pf.categoryContainerList.get(i));
+        p.catalogRowContainerList.get(0).add(p.catalogContainerList.get(0));
+        p.catalogRowContainerList.get(0).add(p.catalogContainerList.get(1));
+        p.catalogRowContainerList.get(0).add(p.catalogContainerList.get(2));
+        p.catalogRowContainerList.get(0).add(p.catalogContainerList.get(3));
+
+        p.catalogRowContainerList.get(1).add(p.catalogContainerList.get(4));
+        p.catalogRowContainerList.get(1).add(p.catalogContainerList.get(5));
+        p.catalogRowContainerList.get(1).add(p.catalogContainerList.get(6));
+        p.catalogRowContainerList.get(1).add(p.catalogContainerList.get(7));
+
+        p.bodyPanel.add(p.catalogRowContainerList.get(0));
+        p.bodyPanel.add(p.catalogRowContainerList.get(1));
+
+        for (int i = 0; i < c.categoryButtonList.size(); i++) {
+            p.categoryContainerList.get(i).add(c.categoryButtonList.get(i));
+            c.categoryButtonList.get(i).addActionListener(this::changeCategory);
         }
 
-        pf.contentPanel.add(pf.headerPanel, BorderLayout.NORTH);
-        pf.contentPanel.add(pf.bodyPanel, BorderLayout.CENTER);
-        pf.contentPanel.add(pf.footerPanel, BorderLayout.SOUTH);
+        for (int i = 0; i < p.categoryContainerList.size(); i++) {
+            p.footerPanel.add(p.categoryContainerList.get(i));
+        }
 
-        this.add(pf.contentPanel);
+        p.contentPanel.add(p.headerPanel, BorderLayout.NORTH);
+        p.contentPanel.add(p.bodyPanel, BorderLayout.CENTER);
+        p.contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
 
-        this.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setUndecorated(true);
-        this.setResizable(false);
+        f.add(p.contentPanel);
     }
 
     public void handleMenuViewButton() {
-        for (int i = 0; i < cf.catalogButtonList.size(); i++) {
+        for (int i = 0; i < c.catalogButtonList.size(); i++) {
             int catalogID = 0;
 
-            pf.catalogContainerList.get(i).add(cf.catalogButtonList.get(i));
-            pf.catalogContainerList.get(i).add(cf.catalogNameList.get(i));
+            p.catalogContainerList.get(i).add(c.catalogButtonList.get(i));
+            p.catalogContainerList.get(i).add(c.catalogNameList.get(i));
 
-            catalogMenuList.add(new LinkedList<>(Arrays.asList(
-                    pf.catalogContainerList.get(i),
-                    cf.catalogButtonList.get(i),
-                    cf.catalogNameList.get(i),
-                    catalogID
+            catalogList.add(new LinkedList<>(Arrays.asList(
+                    p.catalogContainerList.get(i), // 0
+                    c.catalogButtonList.get(i), // 1
+                    c.catalogNameList.get(i), // 2
+                    catalogID // 3
             )));
         }
     }
 
     public void changeCategory(ActionEvent e) {
         Component component = (Component) e.getSource();
+        int newID = 0;
 
-        if(component == cf.categoryButtonList.get(0)) {
+        if(component == c.categoryButtonList.get(0)) {
             currentCategory = Category.BEER;
-        } else if(component == cf.categoryButtonList.get(1)) {
+            newID = 0;
+        } else if(component == c.categoryButtonList.get(1)) {
             currentCategory = Category.COCKTAIL;
-        } else if(component == cf.categoryButtonList.get(2)) {
+            newID = 1;
+        } else if(component == c.categoryButtonList.get(2)) {
             currentCategory = Category.RUM;
-        } else if(component == cf.categoryButtonList.get(3)) {
+            newID = 2;
+        } else if(component == c.categoryButtonList.get(3)) {
             currentCategory = Category.WHISKEY;
-        } else if(component == cf.categoryButtonList.get(4)) {
+            newID = 3;
+        } else if(component == c.categoryButtonList.get(4)) {
             currentCategory = Category.WINE;
+            newID = 4;
+        }
+
+        for (LinkedList<Object> catalog : catalogList) {
+            catalog.set(catalog.size() - 1, newID);
         }
 
         updateContent();
@@ -121,12 +133,40 @@ public class menuView extends JFrame {
             default -> categoryName = "";
         }
 
-        for (int i = 0; i < cf.catalogButtonList.size(); i++) {
-            cf.catalogButtonList.get(i).setText(categoryName + " " + i + " Button");
-            cf.catalogNameList.get(i).setText(categoryName + " " + i + " Name");
+        for (int i = 0; i < c.catalogButtonList.size(); i++) {
+            c.catalogButtonList.get(i).setText(categoryName + " " + i + " Button");
+            c.catalogNameList.get(i).setText(categoryName + " " + i + " Name");
         }
 
-        repaint(pf.contentPanel);
+        repaint(p.contentPanel);
+    }
+
+    public void addToOrder(ActionEvent e) {
+        Component component = (Component) e.getSource();
+
+        for (int i = 0; i < c.catalogButtonList.size(); i++) {
+            if (!catalogList.get(i).contains(component)) {
+                continue;
+            }
+
+            JLabel catalogName = (JLabel) catalogList.get(i).get(2);
+
+            orderList.add(new LinkedList<>(Arrays.asList(
+                    catalogList.get(i).getLast(),
+                    catalogName.getText()
+            )));
+
+            return;
+        }
+    }
+
+    public void confirmOrder (ActionEvent e) {
+        for (int i = 0; i < orderList.size(); i++) {
+            System.out.println(orderList.get(i).getFirst());
+            System.out.println(orderList.get(i).getLast());
+        }
+
+        orderList.clear();
     }
 
     public void repaint(Component component){
