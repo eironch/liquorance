@@ -18,13 +18,22 @@ public class Main {
     final static AssetFactory assetFactory = new AssetFactory();
 
     public static void main(String[] args) {
+        JFrame frame = new JFrame();
+
         SwingUtilities.invokeLater(() -> {
-            new menuView(
-                    databaseManager, panelFactory, componentFactory,
-                    assetFactory).setVisible(true);
+            new menuView(frame, databaseManager,
+                    panelFactory, componentFactory,
+                    assetFactory);
 //            new liquorView(
 //                    databaseManager, panelFactory, componentFactory,
 //                    assetFactory).setVisible(true);
+
+            frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frame.setUndecorated(true);
+            frame.setResizable(false);
+            frame.setVisible(true);
         });
     }
 }
