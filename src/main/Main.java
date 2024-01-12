@@ -6,9 +6,11 @@ import component.ComponentFactory;
 import panel.PanelFactory;
 import view.ConfirmView;
 import view.MenuView;
+import view.QueueView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedList;
 
 public class Main {
     public static final int WIDTH = 1280;
@@ -19,15 +21,19 @@ public class Main {
     final static AssetFactory assetFactory = new AssetFactory();
     static MenuView menuView;
     static ConfirmView confirmView;
+    static QueueView queueView;
     static JFrame frame = new JFrame();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             menuView = new MenuView(frame);
             confirmView = new ConfirmView(frame);
+            queueView = new QueueView(frame);
+
 
 //            showMenuView();
             showConfirmView();
+
             frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -46,6 +52,19 @@ public class Main {
     public static void showConfirmView() {
         frame.getContentPane().removeAll();
         frame.add(confirmView.contentPanel);
+        repaint(frame.getContentPane());
+    }
+    public static void showConfirmView(LinkedList<LinkedList<Object>> orderList) {
+        frame.getContentPane().removeAll();
+        frame.add(confirmView.contentPanel);
+        confirmView.showOrder(orderList);
+        repaint(frame.getContentPane());
+    }
+
+    public static void showQueueView() {
+        frame.getContentPane().removeAll();
+        frame.add(queueView.contentPanel);
+        queueView.showQueueNumber();
         repaint(frame.getContentPane());
     }
 
