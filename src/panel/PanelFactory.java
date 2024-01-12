@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class PanelFactory {
     public JPanel headerPanel = new JPanel();
@@ -12,9 +13,11 @@ public class PanelFactory {
     public JPanel footerPanel = new JPanel();
     public ArrayList<Container> headerContainerList = new ArrayList<>();
 
+
     // ------------- menu view --------------
+
     public ArrayList<Container> catalogRowContainerList = new ArrayList<>();
-    public ArrayList<Container> catalogContainerList = new ArrayList<>();
+    public ArrayList<Container> liquorMenuContainerList = new ArrayList<>();
     public ArrayList<Container> categoryContainerList = new ArrayList<>();
 
 
@@ -26,8 +29,14 @@ public class PanelFactory {
     public Container orderTotalContainer = new Container();
     public Container confirmOrderContainer = new Container();
 
+    // ------------ queue view --------------
+
+    public Container queueSectionContainer = new Container();
+    public LinkedList<Container> queueComponentContainerList = new LinkedList<>();
+
     public PanelFactory() {
         headerPanel.setLayout(new GridLayout(1, 3, 0, 0));
+        headerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
         headerPanel.setBackground(Color.DARK_GRAY);
     }
 
@@ -45,8 +54,8 @@ public class PanelFactory {
         }
 
         for (int i = 0; i < 8; i++) {
-            catalogContainerList.add(new Container());
-            catalogContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            liquorMenuContainerList.add(new Container());
+            liquorMenuContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         }
 
         for (int i = 0; i < 5; i++) {
@@ -69,9 +78,6 @@ public class PanelFactory {
         headerContainerList.add(new Container());
         headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        bodyPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        bodyPanel.setBackground(Color.LIGHT_GRAY);
-
         orderPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         orderPanel.setPreferredSize(new Dimension(Main.WIDTH, 0));
         orderPanel.setBackground(Color.LIGHT_GRAY);
@@ -80,7 +86,7 @@ public class PanelFactory {
         orderScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         orderScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         orderScrollPane.setBackground(Color.LIGHT_GRAY);
-        orderScrollPane.getVerticalScrollBar().setUnitIncrement(4);
+        orderScrollPane.getVerticalScrollBar().setUnitIncrement(7);
         orderScrollPane.getVerticalScrollBar().setBackground(Color.LIGHT_GRAY);
         orderScrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         orderScrollPane.getVerticalScrollBar().setBorder(null);
@@ -98,14 +104,32 @@ public class PanelFactory {
         confirmOrderContainer.setPreferredSize(new Dimension(200, 60));
     }
 
-    public void handleLiquorView() {
-        bodyPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        bodyPanel.setBackground(Color.BLACK);
+    public void handleQueueView() {
+        headerContainerList.add(new Container());
+        headerContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
+        headerContainerList.add(new Container());
+        headerContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        headerContainerList.add(new Container());
+        headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+
+        bodyPanel.setLayout(new GridLayout(3, 1, 0, 0));
+        bodyPanel.setBackground(Color.LIGHT_GRAY);
+
+        queueComponentContainerList.add(new Container());
+        queueComponentContainerList.getLast().setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        queueComponentContainerList.add(new Container());
+        queueComponentContainerList.getLast().setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        queueComponentContainerList.add(new Container());
+        queueComponentContainerList.getLast().setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+
+        footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        footerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
+        footerPanel.setBackground(Color.LIGHT_GRAY);
     }
 
     static class CustomScrollBarUI extends BasicScrollBarUI {
         int verticalScrollBarWidth = 12;
-        int verticalTrackBoundX = 8;
+        int verticalTrackBoundX = 2;
         @Override
         protected JButton createDecreaseButton(int orientation) {
             return createArrowButton();
@@ -135,7 +159,7 @@ public class PanelFactory {
             Graphics2D thumbEndGraphic = (Graphics2D) g;
 
             thumbEndGraphic.setColor(Color.DARK_GRAY);
-            thumbEndGraphic.fillRect(thumbBounds.x + verticalTrackBoundX, thumbBounds.y, thumbBounds.width, thumbBounds.height);
+            thumbEndGraphic.fillRect(thumbBounds.x + verticalTrackBoundX, thumbBounds.y + 4, thumbBounds.width, thumbBounds.height - 8);
 
             thumbEndGraphic.dispose();
         }
