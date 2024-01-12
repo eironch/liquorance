@@ -20,7 +20,7 @@ public class MenuView {
     Category currentCategory = Category.BEER;
     public JPanel contentPanel = new JPanel();
     String[] categoryList = {"Beer", "Cocktail", "Wine", "Whiskey", "Rum"};
-    LinkedList<LinkedList<Object>> catalogList = new LinkedList<>();
+    LinkedList<LinkedList<Object>> liquorMenuList = new LinkedList<>();
     LinkedList<LinkedList<Object>> orderList = new LinkedList<>();
 
     public MenuView(JFrame frame) {
@@ -48,15 +48,15 @@ public class MenuView {
             c.liquorMenuButtonList.get(i).addActionListener(this::addToOrder);
         }
 
-        p.catalogRowContainerList.get(0).add(p.catalogContainerList.get(0));
-        p.catalogRowContainerList.get(0).add(p.catalogContainerList.get(1));
-        p.catalogRowContainerList.get(0).add(p.catalogContainerList.get(2));
-        p.catalogRowContainerList.get(0).add(p.catalogContainerList.get(3));
+        p.catalogRowContainerList.get(0).add(p.liquorMenuContainerList.get(0));
+        p.catalogRowContainerList.get(0).add(p.liquorMenuContainerList.get(1));
+        p.catalogRowContainerList.get(0).add(p.liquorMenuContainerList.get(2));
+        p.catalogRowContainerList.get(0).add(p.liquorMenuContainerList.get(3));
 
-        p.catalogRowContainerList.get(1).add(p.catalogContainerList.get(4));
-        p.catalogRowContainerList.get(1).add(p.catalogContainerList.get(5));
-        p.catalogRowContainerList.get(1).add(p.catalogContainerList.get(6));
-        p.catalogRowContainerList.get(1).add(p.catalogContainerList.get(7));
+        p.catalogRowContainerList.get(1).add(p.liquorMenuContainerList.get(4));
+        p.catalogRowContainerList.get(1).add(p.liquorMenuContainerList.get(5));
+        p.catalogRowContainerList.get(1).add(p.liquorMenuContainerList.get(6));
+        p.catalogRowContainerList.get(1).add(p.liquorMenuContainerList.get(7));
 
         p.bodyPanel.add(p.catalogRowContainerList.get(0));
         p.bodyPanel.add(p.catalogRowContainerList.get(1));
@@ -79,11 +79,11 @@ public class MenuView {
         for (int i = 0; i < c.liquorMenuButtonList.size(); i++) {
             int catalogID = 0;
 
-            p.catalogContainerList.get(i).add(c.liquorMenuButtonList.get(i));
-            p.catalogContainerList.get(i).add(c.liquorMenuNameList.get(i));
+            p.liquorMenuContainerList.get(i).add(c.liquorMenuButtonList.get(i));
+            p.liquorMenuContainerList.get(i).add(c.liquorMenuNameList.get(i));
 
-            catalogList.add(new LinkedList<>(Arrays.asList(
-                    p.catalogContainerList.get(i), // 0
+            liquorMenuList.add(new LinkedList<>(Arrays.asList(
+                    p.liquorMenuContainerList.get(i), // 0
                     c.liquorMenuButtonList.get(i), // 1
                     c.liquorMenuNameList.get(i), // 2
                     catalogID // 3
@@ -112,7 +112,7 @@ public class MenuView {
             newID = 4;
         }
 
-        for (LinkedList<Object> catalog : catalogList) {
+        for (LinkedList<Object> catalog : liquorMenuList) {
             catalog.set(catalog.size() - 1, newID);
         }
 
@@ -141,17 +141,31 @@ public class MenuView {
 
     public void addToOrder(ActionEvent e) {
         Component component = (Component) e.getSource();
+        int orderCount = 0;
 
         for (int i = 0; i < c.liquorMenuButtonList.size(); i++) {
-            if (!catalogList.get(i).contains(component)) {
+            if (!liquorMenuList.get(i).contains(component)) {
                 continue;
             }
 
-            JLabel catalogName = (JLabel) catalogList.get(i).get(2);
+            JLabel liquorName = (JLabel) liquorMenuList.get(i).get(2);
+
+            for (LinkedList<Object> objects : orderList) {
+                if (!objects.contains(liquorName.getText())) {
+                    continue;
+                }
+
+                int newOrderCount = (int) objects.getLast();
+
+                objects.set(2, ++newOrderCount);
+
+                return;
+            }
 
             orderList.add(new LinkedList<>(Arrays.asList(
-                    catalogList.get(i).getLast(),
-                    catalogName.getText()
+                    liquorMenuList.get(i).getLast(),
+                    liquorName.getText(),
+                    ++orderCount
             )));
 
             return;
@@ -159,14 +173,8 @@ public class MenuView {
     }
 
     public void confirmOrder (ActionEvent e) {
-        for (int i = 0; i < orderList.size(); i++) {
-            System.out.println(orderList.get(i).getFirst());
-            System.out.println(orderList.get(i).getLast());
-        }
-
-        orderList.clear();
         f.remove(contentPanel);
-        Main.showConfirmView();
+        Main.showConfirmView(orderList);
         repaint(f);
     }
 
