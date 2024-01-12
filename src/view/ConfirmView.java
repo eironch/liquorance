@@ -8,6 +8,7 @@ import panel.PanelFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.LinkedList;
 
 public class ConfirmView {
     JFrame f;
@@ -36,9 +37,9 @@ public class ConfirmView {
             p.headerPanel.add(p.headerContainerList.get(i));
         }
 
-        p.orderTotalContainer.add(c.orderTotalText);
+        c.confirmOrderButton.addActionListener(this::finishOrder);
 
-        c.confirmOrderButton.addActionListener(this::showOrder);
+        p.orderTotalContainer.add(c.orderTotalText);
 
         p.confirmOrderContainer.add(c.confirmOrderButton);
 
@@ -48,11 +49,20 @@ public class ConfirmView {
         contentPanel.add(p.headerPanel, BorderLayout.NORTH);
         contentPanel.add(p.orderScrollPane, BorderLayout.CENTER);
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
-
-        f.add(contentPanel);
     }
 
-    public void showOrder(ActionEvent e) {
+    public void showOrder(LinkedList<LinkedList<Object>> orderList) {
+        orderContainerSize = 0;
+        p.orderPanel.removeAll();
+
+        for (LinkedList<Object> objects : orderList) {
+            addToShownOrder((String) objects.get(1), (Integer) objects.getLast());
+        }
+
+        repaint(p.orderScrollPane);
+    }
+
+    public void addToShownOrder(String liquorName, int orderCount) {
         Container liquorOrderSectionContainer = new Container();
         Container removeOrderContainer = new Container();
         Container liquorOrderImageContainer = new Container();
@@ -107,7 +117,7 @@ public class ConfirmView {
         liquorOrderImage.setPreferredSize(new Dimension(80, 80));
         liquorOrderImage.setFocusable(false);
 
-        liquorOrderName.setText("Long Island Iced Tea");
+        liquorOrderName.setText(liquorName);
         liquorOrderName.setFont(c.toHelvetica(25));
         liquorOrderName.setForeground(Color.BLACK);
 
@@ -115,7 +125,7 @@ public class ConfirmView {
         decreaseQuantityButton.setPreferredSize(new Dimension(60, 60));
         decreaseQuantityButton.setFocusable(false);
 
-        orderQuantityText.setText("3");
+        orderQuantityText.setText(String.valueOf(orderCount));
         orderQuantityText.setPreferredSize(new Dimension(100, 60));
         orderQuantityText.setHorizontalAlignment(JLabel.CENTER);
         orderQuantityText.setFont(c.toHelvetica(20));
@@ -129,8 +139,10 @@ public class ConfirmView {
 
         p.orderPanel.setPreferredSize(new Dimension(Main.WIDTH, orderContainerSize));
         p.orderPanel.add(liquorOrderSectionContainer);
+    }
 
-        repaint(p.orderScrollPane);
+    public void finishOrder(ActionEvent e) {
+        Main.showQueueView();
     }
 
     public void returnToMenuView(ActionEvent e) {
