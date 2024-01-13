@@ -25,14 +25,33 @@ public class ComponentFactory {
 
     // ------------ queue view --------------
 
-    public JLabel queueContext = new JLabel();
-    public JLabel queueNumberText = new JLabel();
+    public JLabel orderNumberContext = new JLabel();
+    public JLabel orderNumberText = new JLabel();
     public JLabel orderTotalContext = new JLabel();
+
+    // ------------ title view --------------
+
+    public JLabel taglineText = new JLabel();
+    public JButton openCatalogButton = new JButton();
 
     public ComponentFactory() {
         titleText.setText("Liquorance");
         titleText.setFont(toHelvetica(40));
         titleText.setForeground(Color.WHITE);
+    }
+
+    public void handleTitleView() {
+        titleText.setFont(toHelvetica(150));
+        titleText.setPreferredSize(new Dimension(Main.WIDTH, 180));
+        titleText.setHorizontalAlignment(JLabel.CENTER);
+
+        taglineText.setText("Have your night.");
+        taglineText.setFont(toHelvetica(40));
+        taglineText.setForeground(Color.WHITE);
+
+        openCatalogButton.setText("See Catalog");
+        openCatalogButton.setPreferredSize(new Dimension(200, 60));
+        openCatalogButton.setFocusable(false);
     }
 
     public void handleMenuView() {
@@ -80,17 +99,17 @@ public class ComponentFactory {
     }
 
     public void handleQueueView() {
-        queueContext.setText("Your Queue Number:");
-        queueContext.setPreferredSize(new Dimension(Main.WIDTH, 330));
-        queueContext.setHorizontalAlignment(JLabel.CENTER);
-        queueContext.setVerticalAlignment(JLabel.CENTER);
-        queueContext.setFont(toHelvetica(50));
-        queueContext.setForeground(Color.BLACK);
+        orderNumberContext.setText("Your Order Number:");
+        orderNumberContext.setPreferredSize(new Dimension(Main.WIDTH, 330));
+        orderNumberContext.setHorizontalAlignment(JLabel.CENTER);
+        orderNumberContext.setVerticalAlignment(JLabel.CENTER);
+        orderNumberContext.setFont(toHelvetica(50));
+        orderNumberContext.setForeground(Color.BLACK);
 
-        queueNumberText.setText("200");
-        queueNumberText.setFont(toHelvetica(250));
-        queueNumberText.setBorder(BorderFactory.createEmptyBorder(-55, 0, 0, 0));
-        queueNumberText.setForeground(Color.BLACK);
+        orderNumberText.setText("200");
+        orderNumberText.setFont(toHelvetica(250));
+        orderNumberText.setBorder(BorderFactory.createEmptyBorder(-55, 0, 0, 0));
+        orderNumberText.setForeground(Color.BLACK);
 
         orderTotalContext.setText("Please Prepare Your Payment Of");
         orderTotalContext.setPreferredSize(new Dimension(Main.WIDTH, 70));
