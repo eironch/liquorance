@@ -3,10 +3,13 @@ package view;
 import asset.AssetFactory;
 import component.ComponentFactory;
 import database.DatabaseManager;
+import main.Main;
 import panel.PanelFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class QueueView {
     JFrame f;
@@ -30,8 +33,8 @@ public class QueueView {
             p.headerPanel.add(p.headerContainerList.get(i));
         }
 
-        p.queueComponentContainerList.get(0).add(c.queueContext);
-        p.queueComponentContainerList.get(1).add(c.queueNumberText);
+        p.queueComponentContainerList.get(0).add(c.orderNumberContext);
+        p.queueComponentContainerList.get(1).add(c.orderNumberText);
         p.queueComponentContainerList.get(2).add(c.orderTotalContext);
         p.queueComponentContainerList.get(2).add(c.orderTotalText);
 
@@ -44,7 +47,15 @@ public class QueueView {
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
-    public void showQueueNumber() {
+    public void showOrderNumber() {
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showTitleView();
+                ((Timer) e.getSource()).stop();
+            }
+        });
 
+        timer.start();
     }
 }
