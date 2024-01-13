@@ -17,8 +17,8 @@ public class MenuView {
     PanelFactory p = new PanelFactory();
     ComponentFactory c = new ComponentFactory();
     AssetFactory a = new AssetFactory();
-    Category currentCategory = Category.BEER;
     public JPanel contentPanel = new JPanel();
+    Category currentCategory = Category.BEER;
     String[] categoryList = {"Beer", "Cocktail", "Wine", "Whiskey", "Rum"};
     LinkedList<LinkedList<Object>> liquorMenuList = new LinkedList<>();
     LinkedList<LinkedList<Object>> orderList = new LinkedList<>();
