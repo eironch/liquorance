@@ -31,13 +31,26 @@ public class PanelFactory {
 
     // ------------ queue view --------------
 
-    public Container queueSectionContainer = new Container();
     public LinkedList<Container> queueComponentContainerList = new LinkedList<>();
+
+    // ------------ title view --------------
+
+    public LinkedList<Container> titleComponentContainerList = new LinkedList<>();
 
     public PanelFactory() {
         headerPanel.setLayout(new GridLayout(1, 3, 0, 0));
         headerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
         headerPanel.setBackground(Color.DARK_GRAY);
+    }
+
+    public void handleTitleView() {
+        bodyPanel.setLayout(new GridLayout(3, 1, 0, 0));
+        bodyPanel.setBackground(Color.DARK_GRAY);
+
+        for (int i = 0; i < 3; i++) {
+            titleComponentContainerList.add(new Container());
+            titleComponentContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        }
     }
 
     public void handleMenuView() {
