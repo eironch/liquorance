@@ -7,6 +7,7 @@ import panel.PanelFactory;
 import view.ConfirmView;
 import view.MenuView;
 import view.QueueView;
+import view.TitleView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,7 @@ public class Main {
     static MenuView menuView;
     static ConfirmView confirmView;
     static QueueView queueView;
+    static TitleView titleView;
     static JFrame frame = new JFrame();
 
     public static void main(String[] args) {
@@ -29,10 +31,12 @@ public class Main {
             menuView = new MenuView(frame);
             confirmView = new ConfirmView(frame);
             queueView = new QueueView(frame);
-
+            titleView = new TitleView(frame);
 
 //            showMenuView();
-            showConfirmView();
+//            showConfirmView();
+
+            showTitleView();
 
             frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,6 +45,13 @@ public class Main {
             frame.setResizable(false);
             frame.setVisible(true);
         });
+    }
+
+    public static void showTitleView() {
+        frame.getContentPane().removeAll();
+        frame.add(titleView.contentPanel);
+//        titleView.showOrderNumber();
+        repaint(frame.getContentPane());
     }
 
     public static void showMenuView() {
@@ -64,7 +75,7 @@ public class Main {
     public static void showQueueView() {
         frame.getContentPane().removeAll();
         frame.add(queueView.contentPanel);
-        queueView.showQueueNumber();
+        queueView.showOrderNumber();
         repaint(frame.getContentPane());
     }
 
