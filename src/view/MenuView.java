@@ -8,6 +8,7 @@ import panel.PanelFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -20,7 +21,7 @@ public class MenuView {
     public JPanel contentPanel = new JPanel();
     Category currentCategory = Category.BEER;
     int menuID;
-    int orderAmount;
+    int orderQuantity;
     LinkedList<LinkedList<Object>> liquorMenuList = new LinkedList<>();
     LinkedList<LinkedList<Object>> orderList = new LinkedList<>();
 
@@ -46,7 +47,7 @@ public class MenuView {
         updateContent();
 
         for (int i = 0; i < c.liquorMenuButtonList.size(); i++) {
-            c.liquorMenuButtonList.get(i).addActionListener(this::showFloatingComponent);
+            c.liquorMenuButtonList.get(i).addActionListener(this::showQuantityPrompt);
         }
 
         p.catalogRowContainerList.get(0).add(p.liquorMenuContainerList.get(0));
@@ -75,13 +76,13 @@ public class MenuView {
         p.cancelContainer.add(c.cancelButton);
         p.confirmContainer.add(c.confirmButton);
 
-        p.amountPromptContainerList.get(0).add(c.orderQuantityContext);
-        p.amountPromptContainerList.get(1).add(p.quantitySelectorContainer);
-        p.amountPromptContainerList.get(2).add(p.cancelContainer);
-        p.amountPromptContainerList.get(2).add(p.confirmContainer);
+        p.quantityPromptContainerList.get(0).add(c.orderQuantityContext);
+        p.quantityPromptContainerList.get(1).add(p.quantitySelectorContainer);
+        p.quantityPromptContainerList.get(2).add(p.cancelContainer);
+        p.quantityPromptContainerList.get(2).add(p.confirmContainer);
 
-        for (int i = 0; i < p.amountPromptContainerList.size(); i++) {
-            p.quantityPromptPanel.add(p.amountPromptContainerList.get(i));
+        for (int i = 0; i < p.quantityPromptContainerList.size(); i++) {
+            p.quantityPromptPanel.add(p.quantityPromptContainerList.get(i));
         }
 
         p.layeredPane.add(p.catalogSectionContainer, JLayeredPane.DEFAULT_LAYER);
@@ -120,6 +121,7 @@ public class MenuView {
 
     private void changeCategory(ActionEvent e) {
         Component component = (Component) e.getSource();
+
         int newID = 0;
 
         if(component == c.categoryButtonList.get(0)) {
@@ -176,37 +178,80 @@ public class MenuView {
 
             JLabel liquorName = (JLabel) liquorMenuList.get(i).get(2);
 
-            for (LinkedList<Object> objects : orderList) {
-                if (!objects.contains(liquorName.getText())) {
+            for (int j = 0; j < orderList.size(); j++) {
+                if (!orderList.get(i).contains(liquorName.getText())) {
                     continue;
                 }
 
-                objects.set(2, orderAmount);
+                if (orderQuantity == 0) {
+                    orderList.remove(i);
+
+                    return;
+                }
+
+                orderList.get(i).set(2, orderQuantity);
 
                 return;
             }
 
+            if (orderQuantity == 0) {
+                return;
+            }
+
             orderList.add(new LinkedList<>(Arrays.asList(
-                    liquorMenuList.get(i).getLast(),
-                    liquorName.getText(),
-                    orderAmount
+                    liquorMenuList.get(i).getLast(), // 0
+                    liquorName.getText(), // 1
+                    orderQuantity // 2
             )));
 
             return;
         }
     }
 
-    private void showFloatingComponent(ActionEvent e) {
+    public void updateOrder(LinkedList<LinkedList<Object>> orderInfoList) {
+        ArrayList<Integer> removeOrderList = new ArrayList<>();
+
+        for (int x = 0; x < orderList.size(); x++) {
+
+            if (orderInfoList.isEmpty()) {
+                orderList.clear();
+
+                return;
+            }
+
+            for (int i = 0; i < orderInfoList.size(); i++) {
+                if (!orderInfoList.get(i).get(4).equals(orderList.get(x).getFirst())) {
+                    if (i == orderInfoList.size() - 1) {
+                        removeOrderList.add(x);
+                    }
+
+                    continue;
+                }
+
+                if (orderInfoList.get(i).getLast().equals(orderList.get(x).getLast())) {
+                    break;
+                }
+
+                orderList.get(i).set(2, orderInfoList.get(i).getLast());
+            }
+        }
+
+        for (int index : removeOrderList) {
+            orderList.remove(index);
+        }
+
+        removeOrderList.clear();
+    }
+
+    private void showQuantityPrompt(ActionEvent e) {
         if (p.layeredPane.isAncestorOf(p.quantityPromptPanel)) {
             return;
         }
 
-        orderAmount = 1;
-
-        Component component = (Component) e.getSource();
+        orderQuantity = 1;
 
         for (LinkedList<Object> objects : liquorMenuList) {
-            if (!objects.contains(component)) {
+            if (!objects.contains(e.getSource())) {
                 continue;
             }
 
@@ -227,7 +272,7 @@ public class MenuView {
                     continue;
                 }
 
-                orderAmount = (Integer) objects.getLast();
+                orderQuantity = (Integer) objects.getLast();
 
                 break;
             }
@@ -235,7 +280,7 @@ public class MenuView {
             break;
         }
 
-        c.orderQuantityText.setText(String.valueOf(orderAmount));
+        c.orderQuantityText.setText(String.valueOf(orderQuantity));
         p.layeredPane.add(p.quantityPromptPanel, JLayeredPane.PALETTE_LAYER);
 
         repaint(p.bodyPanel);
@@ -248,21 +293,21 @@ public class MenuView {
     }
 
     private void decreaseQuantity(ActionEvent e) {
-        if (orderAmount == 1) {
+        if (orderQuantity == 0) {
             return;
         }
 
-        orderAmount--;
+        orderQuantity--;
 
-        c.orderQuantityText.setText(String.valueOf(orderAmount));
+        c.orderQuantityText.setText(String.valueOf(orderQuantity));
 
         repaint(c.orderQuantityText);
     }
 
     private void increaseQuantity(ActionEvent e) {
-        orderAmount++;
+        orderQuantity++;
 
-        c.orderQuantityText.setText(String.valueOf(orderAmount));
+        c.orderQuantityText.setText(String.valueOf(orderQuantity));
 
         repaint(c.orderQuantityText);
     }
