@@ -34,7 +34,7 @@ public class ComponentFactory {
     public JLabel taglineText = new JLabel();
     public JButton openCatalogButton = new JButton();
 
-    // -------------- prompt ----------------
+    // ---------- quantity prompt -----------
 
     public JLabel orderQuantityContext = new JLabel();
     public JButton decreaseQuantityButton = new JButton();
@@ -42,6 +42,10 @@ public class ComponentFactory {
     public JButton increaseQuantityButton = new JButton();
     public JButton cancelButton = new JButton();
     public JButton confirmButton = new JButton();
+
+    // ---------- removal prompt ------------
+
+    public JLabel removalContext = new JLabel();
 
     public ComponentFactory() {
         titleText.setText("Liquorance");
