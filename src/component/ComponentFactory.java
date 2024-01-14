@@ -34,6 +34,15 @@ public class ComponentFactory {
     public JLabel taglineText = new JLabel();
     public JButton openCatalogButton = new JButton();
 
+    // -------------- prompt ----------------
+
+    public JLabel orderQuantityContext = new JLabel();
+    public JButton decreaseQuantityButton = new JButton();
+    public JLabel orderQuantityText = new JLabel();
+    public JButton increaseQuantityButton = new JButton();
+    public JButton cancelButton = new JButton();
+    public JButton confirmButton = new JButton();
+
     public ComponentFactory() {
         titleText.setText("Liquorance");
         titleText.setFont(toHelvetica(40));
@@ -82,6 +91,32 @@ public class ComponentFactory {
             categoryButtonList.get(i).setPreferredSize(new Dimension(80, 80));
             categoryButtonList.get(i).setFocusable(false);
         }
+
+        orderQuantityContext.setText("Order Quantity");
+        orderQuantityContext.setFont(toHelvetica(30));
+        orderQuantityContext.setForeground(Color.WHITE);
+
+        decreaseQuantityButton.setText("-");
+        decreaseQuantityButton.setPreferredSize(new Dimension(60, 60));
+        decreaseQuantityButton.setFocusable(false);
+
+        orderQuantityText.setText("1");
+        orderQuantityText.setPreferredSize(new Dimension(100, 60));
+        orderQuantityText.setHorizontalAlignment(JLabel.CENTER);
+        orderQuantityText.setFont(toHelvetica(20));
+        orderQuantityText.setForeground(Color.WHITE);
+
+        increaseQuantityButton.setText("+");
+        increaseQuantityButton.setPreferredSize(new Dimension(60, 60));
+        increaseQuantityButton.setFocusable(false);
+
+        cancelButton.setText("Cancel");
+        cancelButton.setPreferredSize(new Dimension(120,60));
+        cancelButton.setFocusable(false);
+
+        confirmButton.setText("Confirm");
+        confirmButton.setPreferredSize(new Dimension(120,60));
+        confirmButton.setFocusable(false);
     }
 
     public void handleConfirmView() {
