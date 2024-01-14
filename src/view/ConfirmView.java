@@ -62,7 +62,7 @@ public class ConfirmView {
         repaint(p.orderScrollPane);
     }
 
-    public void addToShownOrder(String liquorName, int orderCount) {
+    public void addToShownOrder(String liquorName, int orderAmount) {
         Container liquorOrderSectionContainer = new Container();
         Container removeOrderContainer = new Container();
         Container liquorOrderImageContainer = new Container();
@@ -125,7 +125,7 @@ public class ConfirmView {
         decreaseQuantityButton.setPreferredSize(new Dimension(60, 60));
         decreaseQuantityButton.setFocusable(false);
 
-        orderQuantityText.setText(String.valueOf(orderCount));
+        orderQuantityText.setText(String.valueOf(orderAmount));
         orderQuantityText.setPreferredSize(new Dimension(100, 60));
         orderQuantityText.setHorizontalAlignment(JLabel.CENTER);
         orderQuantityText.setFont(c.toHelvetica(20));
