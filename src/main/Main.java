@@ -60,6 +60,13 @@ public class Main {
         repaint(frame.getContentPane());
     }
 
+    public static void showMenuView(LinkedList<LinkedList<Object>> orderInfoList) {
+        frame.getContentPane().removeAll();
+        frame.add(menuView.contentPanel);
+        menuView.updateOrder(orderInfoList);
+        repaint(frame.getContentPane());
+    }
+
     public static void showConfirmView() {
         frame.getContentPane().removeAll();
         frame.add(confirmView.contentPanel);
