@@ -16,9 +16,11 @@ public class PanelFactory {
 
     // ------------- menu view --------------
 
+    public JLayeredPane layeredPane = new JLayeredPane();
     public ArrayList<Container> catalogRowContainerList = new ArrayList<>();
     public ArrayList<Container> liquorMenuContainerList = new ArrayList<>();
     public ArrayList<Container> categoryContainerList = new ArrayList<>();
+    public Container catalogSectionContainer = new Container();
 
 
     // ----------- confirm view -------------
@@ -36,6 +38,14 @@ public class PanelFactory {
     // ------------ title view --------------
 
     public LinkedList<Container> titleComponentContainerList = new LinkedList<>();
+
+    // -------------- prompt ----------------
+
+    public LinkedList<Container> amountPromptContainerList = new LinkedList<>();
+    public Container quantitySelectorContainer = new Container();
+    public Container cancelContainer = new Container();
+    public Container confirmContainer = new Container();
+    public JPanel quantityPromptPanel = new JPanel();
 
     public PanelFactory() {
         headerPanel.setLayout(new GridLayout(1, 3, 0, 0));
@@ -76,11 +86,32 @@ public class PanelFactory {
             categoryContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         }
 
-        bodyPanel.setLayout(new GridLayout(2, 1, 0, 0));
+        bodyPanel.setLayout(new GridLayout(1, 1, 0, 0));
         bodyPanel.setBackground(Color.LIGHT_GRAY);
+
+        layeredPane.setLayout(null);
+
+        catalogSectionContainer.setLayout(new GridLayout(2, 1, 0, 0));
+        catalogSectionContainer.setSize(Main.WIDTH, Main.HEIGHT - 160);
 
         footerPanel.setLayout(new GridLayout(1, 4, 0, 0));
         footerPanel.setBackground(Color.DARK_GRAY);
+
+        quantityPromptPanel.setLayout(new GridLayout(3, 1, 0, 0));
+        quantityPromptPanel.setBounds((Main.WIDTH / 2) - 250, (Main.HEIGHT / 2) - 230, 500, 300);
+        quantityPromptPanel.setBackground(Color.DARK_GRAY);
+
+        amountPromptContainerList.add(new Container());
+        amountPromptContainerList.get(0).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 27));
+        amountPromptContainerList.add(new Container());
+        amountPromptContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        amountPromptContainerList.add(new Container());
+        amountPromptContainerList.get(2).setLayout(new GridLayout(1, 2, 0, 0));
+
+        quantitySelectorContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+
+        cancelContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        confirmContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
     }
 
     public void handleConfirmView() {
