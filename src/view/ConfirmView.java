@@ -8,6 +8,7 @@ import panel.PanelFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class ConfirmView {
@@ -16,9 +17,9 @@ public class ConfirmView {
     PanelFactory p = new PanelFactory();
     ComponentFactory c = new ComponentFactory();
     AssetFactory a = new AssetFactory();
-
     int orderContainerSize = 0;
     public JPanel contentPanel = new JPanel();
+    LinkedList<LinkedList<Object>> orderInfoList = new LinkedList<>();
 
     public ConfirmView(JFrame frame) {
         this.f = frame;
@@ -46,23 +47,27 @@ public class ConfirmView {
         p.footerPanel.add(p.orderTotalContainer);
         p.footerPanel.add(p.confirmOrderContainer);
 
+        p.layeredPane.add(p.orderScrollPane, JLayeredPane.DEFAULT_LAYER);
+
         contentPanel.add(p.headerPanel, BorderLayout.NORTH);
-        contentPanel.add(p.orderScrollPane, BorderLayout.CENTER);
+        contentPanel.add(p.layeredPane, BorderLayout.CENTER);
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
     public void showOrder(LinkedList<LinkedList<Object>> orderList) {
         orderContainerSize = 0;
+
+        orderInfoList.clear();
         p.orderPanel.removeAll();
 
         for (LinkedList<Object> objects : orderList) {
-            addToShownOrder((String) objects.get(1), (Integer) objects.getLast());
+            addToShownOrder((String) objects.get(1), (Integer) objects.getLast(), (Integer) objects.getFirst());
         }
 
         repaint(p.orderScrollPane);
     }
 
-    public void addToShownOrder(String liquorName, int orderAmount) {
+    public void addToShownOrder(String liquorName, int orderQuantity, int menuID) {
         Container liquorOrderSectionContainer = new Container();
         Container removeOrderContainer = new Container();
         Container liquorOrderImageContainer = new Container();
@@ -95,20 +100,6 @@ public class ConfirmView {
         quantitySelectorContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         quantitySelectorContainer.setPreferredSize(new Dimension(220, 60));
 
-        removeOrderContainer.add(removeLiquorOrder);
-        liquorOrderImageContainer.add(liquorOrderImage);
-        liquorOrderNameContainer.add(liquorOrderName);
-
-        quantitySelectorContainer.add(decreaseQuantityButton);
-        quantitySelectorContainer.add(orderQuantityText);
-        quantitySelectorContainer.add(increaseQuantityButton);
-        quantityOrderContainer.add(quantitySelectorContainer);
-
-        liquorOrderSectionContainer.add(removeOrderContainer);
-        liquorOrderSectionContainer.add(liquorOrderImageContainer);
-        liquorOrderSectionContainer.add(liquorOrderNameContainer);
-        liquorOrderSectionContainer.add(quantityOrderContainer);
-
         removeLiquorOrder.setText("X");
         removeLiquorOrder.setPreferredSize(new Dimension(60, 60));
         removeLiquorOrder.setFocusable(false);
@@ -124,8 +115,9 @@ public class ConfirmView {
         decreaseQuantityButton.setText("-");
         decreaseQuantityButton.setPreferredSize(new Dimension(60, 60));
         decreaseQuantityButton.setFocusable(false);
+        decreaseQuantityButton.addActionListener(this::decreaseQuantity);
 
-        orderQuantityText.setText(String.valueOf(orderAmount));
+        orderQuantityText.setText(String.valueOf(orderQuantity));
         orderQuantityText.setPreferredSize(new Dimension(100, 60));
         orderQuantityText.setHorizontalAlignment(JLabel.CENTER);
         orderQuantityText.setFont(c.toHelvetica(20));
@@ -134,6 +126,30 @@ public class ConfirmView {
         increaseQuantityButton.setText("+");
         increaseQuantityButton.setPreferredSize(new Dimension(60, 60));
         increaseQuantityButton.setFocusable(false);
+        increaseQuantityButton.addActionListener(this::increaseQuantity);
+
+        removeOrderContainer.add(removeLiquorOrder);
+        liquorOrderImageContainer.add(liquorOrderImage);
+        liquorOrderNameContainer.add(liquorOrderName);
+
+        quantitySelectorContainer.add(decreaseQuantityButton);
+        quantitySelectorContainer.add(orderQuantityText);
+        quantitySelectorContainer.add(increaseQuantityButton);
+        quantityOrderContainer.add(quantitySelectorContainer);
+
+        liquorOrderSectionContainer.add(removeOrderContainer);
+        liquorOrderSectionContainer.add(liquorOrderImageContainer);
+        liquorOrderSectionContainer.add(liquorOrderNameContainer);
+        liquorOrderSectionContainer.add(quantityOrderContainer);
+
+        orderInfoList.add(new LinkedList<>(Arrays.asList(
+                liquorOrderSectionContainer, // 0
+                decreaseQuantityButton, // 1
+                orderQuantityText, // 2
+                increaseQuantityButton, // 3
+                menuID, // 4
+                orderQuantity // 5
+        )));
 
         orderContainerSize += 80;
 
@@ -141,15 +157,59 @@ public class ConfirmView {
         p.orderPanel.add(liquorOrderSectionContainer);
     }
 
-    public void finishOrder(ActionEvent e) {
+    private void decreaseQuantity(ActionEvent e) {
+        for (int i = 0; i < orderInfoList.size(); i++) {
+            if (!orderInfoList.get(i).contains(e.getSource())) {
+                continue;
+            }
+
+            int orderQuantity = (int) orderInfoList.get(i).getLast();
+
+            if (orderQuantity == 1) {
+                p.orderPanel.remove((Component) orderInfoList.get(i).getFirst());
+
+                orderInfoList.remove(i);
+
+                repaint(p.layeredPane);
+
+                return;
+            }
+
+            orderInfoList.get(i).set(5, --orderQuantity);
+
+            JLabel orderQuantityText = (JLabel) orderInfoList.get(i).get(2);
+            orderQuantityText.setText(String.valueOf(orderInfoList.get(i).get(5)));
+
+            repaint(orderQuantityText);
+        }
+    }
+
+    private void increaseQuantity(ActionEvent e) {
+        for (LinkedList<Object> object : orderInfoList) {
+            if (!object.contains(e.getSource())) {
+                continue;
+            }
+
+            int orderQuantity = (int) object.getLast();
+
+            object.set(4, ++orderQuantity);
+            JLabel orderQuantityText = (JLabel) object.get(1);
+
+            orderQuantityText.setText(String.valueOf(object.get(4)));
+
+            repaint(orderQuantityText);
+        }
+    }
+
+    private void finishOrder(ActionEvent e) {
         Main.showQueueView();
     }
 
-    public void returnToMenuView(ActionEvent e) {
-        Main.showMenuView();
+    private void returnToMenuView(ActionEvent e) {
+        Main.showMenuView(orderInfoList);
     }
 
-    public void repaint(Component component){
+    private void repaint(Component component){
         SwingUtilities.invokeLater(() -> {
             component.revalidate();
             component.repaint();
