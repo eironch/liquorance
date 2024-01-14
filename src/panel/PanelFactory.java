@@ -39,13 +39,20 @@ public class PanelFactory {
 
     public LinkedList<Container> titleComponentContainerList = new LinkedList<>();
 
-    // -------------- prompt ----------------
+    // ---------- quantity prompt -----------
 
-    public LinkedList<Container> amountPromptContainerList = new LinkedList<>();
+    public JPanel quantityPromptPanel = new JPanel();
+    public LinkedList<Container> quantityPromptContainerList = new LinkedList<>();
     public Container quantitySelectorContainer = new Container();
     public Container cancelContainer = new Container();
     public Container confirmContainer = new Container();
-    public JPanel quantityPromptPanel = new JPanel();
+
+
+    // ---------- removal prompt ------------
+
+    public JPanel removalPromptPanel = new JPanel();
+    public LinkedList<Container> removalPromptContainerList = new LinkedList<>();
+
 
     public PanelFactory() {
         headerPanel.setLayout(new GridLayout(1, 3, 0, 0));
@@ -101,12 +108,12 @@ public class PanelFactory {
         quantityPromptPanel.setBounds((Main.WIDTH / 2) - 250, (Main.HEIGHT / 2) - 230, 500, 300);
         quantityPromptPanel.setBackground(Color.DARK_GRAY);
 
-        amountPromptContainerList.add(new Container());
-        amountPromptContainerList.get(0).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 27));
-        amountPromptContainerList.add(new Container());
-        amountPromptContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-        amountPromptContainerList.add(new Container());
-        amountPromptContainerList.get(2).setLayout(new GridLayout(1, 2, 0, 0));
+        quantityPromptContainerList.add(new Container());
+        quantityPromptContainerList.get(0).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 27));
+        quantityPromptContainerList.add(new Container());
+        quantityPromptContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        quantityPromptContainerList.add(new Container());
+        quantityPromptContainerList.get(2).setLayout(new GridLayout(1, 2, 0, 0));
 
         quantitySelectorContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
@@ -122,11 +129,10 @@ public class PanelFactory {
         headerContainerList.add(new Container());
         headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        orderPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        orderPanel.setPreferredSize(new Dimension(Main.WIDTH, 0));
-        orderPanel.setBackground(Color.LIGHT_GRAY);
+        layeredPane.setLayout(null);
 
         orderScrollPane = new JScrollPane(orderPanel);
+        orderScrollPane.setSize(Main.WIDTH, Main.HEIGHT - 160);
         orderScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         orderScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         orderScrollPane.setBackground(Color.LIGHT_GRAY);
@@ -138,6 +144,10 @@ public class PanelFactory {
         orderScrollPane.setBorder(null);
         verticalScrollBar = orderScrollPane.getVerticalScrollBar();
 
+        orderPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        orderPanel.setPreferredSize(new Dimension(Main.WIDTH, 0));
+        orderPanel.setBackground(Color.LIGHT_GRAY);
+
         footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         footerPanel.setBackground(Color.DARK_GRAY);
 
@@ -146,6 +156,19 @@ public class PanelFactory {
 
         confirmOrderContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
         confirmOrderContainer.setPreferredSize(new Dimension(200, 60));
+
+        removalPromptPanel.setLayout(new GridLayout(3, 1, 0, 0));
+        removalPromptPanel.setBounds((Main.WIDTH / 2) - 250, (Main.HEIGHT / 2) - 230, 500, 300);
+        removalPromptPanel.setBackground(Color.DARK_GRAY);
+
+        removalPromptContainerList.add(new Container());
+        removalPromptContainerList.add(new Container());
+        removalPromptContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        removalPromptContainerList.add(new Container());
+        removalPromptContainerList.get(2).setLayout(new GridLayout(1, 2, 0, 0));
+
+        cancelContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        confirmContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
     }
 
     public void handleQueueView() {
