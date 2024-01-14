@@ -19,7 +19,8 @@ public class MenuView {
     AssetFactory a = new AssetFactory();
     public JPanel contentPanel = new JPanel();
     Category currentCategory = Category.BEER;
-    String[] categoryList = {"Beer", "Cocktail", "Wine", "Whiskey", "Rum"};
+    int menuID;
+    int orderAmount;
     LinkedList<LinkedList<Object>> liquorMenuList = new LinkedList<>();
     LinkedList<LinkedList<Object>> orderList = new LinkedList<>();
 
@@ -45,7 +46,7 @@ public class MenuView {
         updateContent();
 
         for (int i = 0; i < c.liquorMenuButtonList.size(); i++) {
-            c.liquorMenuButtonList.get(i).addActionListener(this::addToOrder);
+            c.liquorMenuButtonList.get(i).addActionListener(this::showFloatingComponent);
         }
 
         p.catalogRowContainerList.get(0).add(p.liquorMenuContainerList.get(0));
@@ -58,8 +59,34 @@ public class MenuView {
         p.catalogRowContainerList.get(1).add(p.liquorMenuContainerList.get(6));
         p.catalogRowContainerList.get(1).add(p.liquorMenuContainerList.get(7));
 
-        p.bodyPanel.add(p.catalogRowContainerList.get(0));
-        p.bodyPanel.add(p.catalogRowContainerList.get(1));
+        p.catalogSectionContainer.add(p.catalogRowContainerList.get(0));
+        p.catalogSectionContainer.add(p.catalogRowContainerList.get(1));
+
+        c.decreaseQuantityButton.addActionListener(this::decreaseQuantity);
+        c.increaseQuantityButton.addActionListener(this::increaseQuantity);
+
+        p.quantitySelectorContainer.add(c.decreaseQuantityButton);
+        p.quantitySelectorContainer.add(c.orderQuantityText);
+        p.quantitySelectorContainer.add(c.increaseQuantityButton);
+
+        c.cancelButton.addActionListener(this::removeFloatingWindow);
+        c.confirmButton.addActionListener(this::addToOrder);
+
+        p.cancelContainer.add(c.cancelButton);
+        p.confirmContainer.add(c.confirmButton);
+
+        p.amountPromptContainerList.get(0).add(c.orderQuantityContext);
+        p.amountPromptContainerList.get(1).add(p.quantitySelectorContainer);
+        p.amountPromptContainerList.get(2).add(p.cancelContainer);
+        p.amountPromptContainerList.get(2).add(p.confirmContainer);
+
+        for (int i = 0; i < p.amountPromptContainerList.size(); i++) {
+            p.quantityPromptPanel.add(p.amountPromptContainerList.get(i));
+        }
+
+        p.layeredPane.add(p.catalogSectionContainer, JLayeredPane.DEFAULT_LAYER);
+
+        p.bodyPanel.add(p.layeredPane);
 
         for (int i = 0; i < c.categoryButtonList.size(); i++) {
             p.categoryContainerList.get(i).add(c.categoryButtonList.get(i));
@@ -75,9 +102,9 @@ public class MenuView {
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
-    public void handleMenuViewButton() {
+    private void handleMenuViewButton() {
         for (int i = 0; i < c.liquorMenuButtonList.size(); i++) {
-            int catalogID = 0;
+            int menuID = 0;
 
             p.liquorMenuContainerList.get(i).add(c.liquorMenuButtonList.get(i));
             p.liquorMenuContainerList.get(i).add(c.liquorMenuNameList.get(i));
@@ -86,12 +113,12 @@ public class MenuView {
                     p.liquorMenuContainerList.get(i), // 0
                     c.liquorMenuButtonList.get(i), // 1
                     c.liquorMenuNameList.get(i), // 2
-                    catalogID // 3
+                    menuID // 3
             )));
         }
     }
 
-    public void changeCategory(ActionEvent e) {
+    private void changeCategory(ActionEvent e) {
         Component component = (Component) e.getSource();
         int newID = 0;
 
@@ -119,7 +146,7 @@ public class MenuView {
         updateContent();
     }
 
-    public void updateContent() {
+    private void updateContent() {
         String categoryName;
 
         switch (currentCategory) {
@@ -139,12 +166,11 @@ public class MenuView {
         repaint(contentPanel);
     }
 
-    public void addToOrder(ActionEvent e) {
-        Component component = (Component) e.getSource();
-        int orderCount = 0;
+    private void addToOrder(ActionEvent e) {
+        removeFloatingWindow(e);
 
         for (int i = 0; i < c.liquorMenuButtonList.size(); i++) {
-            if (!liquorMenuList.get(i).contains(component)) {
+            if (!liquorMenuList.get(i).contains(menuID)) {
                 continue;
             }
 
@@ -155,9 +181,7 @@ public class MenuView {
                     continue;
                 }
 
-                int newOrderCount = (int) objects.getLast();
-
-                objects.set(2, ++newOrderCount);
+                objects.set(2, orderAmount);
 
                 return;
             }
@@ -165,20 +189,91 @@ public class MenuView {
             orderList.add(new LinkedList<>(Arrays.asList(
                     liquorMenuList.get(i).getLast(),
                     liquorName.getText(),
-                    ++orderCount
+                    orderAmount
             )));
 
             return;
         }
     }
 
-    public void confirmOrder (ActionEvent e) {
+    private void showFloatingComponent(ActionEvent e) {
+        if (p.layeredPane.isAncestorOf(p.quantityPromptPanel)) {
+            return;
+        }
+
+        orderAmount = 1;
+
+        Component component = (Component) e.getSource();
+
+        for (LinkedList<Object> objects : liquorMenuList) {
+            if (!objects.contains(component)) {
+                continue;
+            }
+
+            menuID = (Integer) objects.getLast();
+
+            break;
+        }
+
+        for (int i = 0; i < c.liquorMenuButtonList.size(); i++) {
+            if (!liquorMenuList.get(i).contains(menuID)) {
+                continue;
+            }
+
+            JLabel liquorName = (JLabel) liquorMenuList.get(i).get(2);
+
+            for (LinkedList<Object> objects : orderList) {
+                if (!objects.contains(liquorName.getText())) {
+                    continue;
+                }
+
+                orderAmount = (Integer) objects.getLast();
+
+                break;
+            }
+
+            break;
+        }
+
+        c.orderQuantityText.setText(String.valueOf(orderAmount));
+        p.layeredPane.add(p.quantityPromptPanel, JLayeredPane.PALETTE_LAYER);
+
+        repaint(p.bodyPanel);
+    }
+
+    private void removeFloatingWindow(ActionEvent e){
+        p.layeredPane.remove(p.quantityPromptPanel);
+
+        repaint(p.bodyPanel);
+    }
+
+    private void decreaseQuantity(ActionEvent e) {
+        if (orderAmount == 1) {
+            return;
+        }
+
+        orderAmount--;
+
+        c.orderQuantityText.setText(String.valueOf(orderAmount));
+
+        repaint(c.orderQuantityText);
+    }
+
+    private void increaseQuantity(ActionEvent e) {
+        orderAmount++;
+
+        c.orderQuantityText.setText(String.valueOf(orderAmount));
+
+        repaint(c.orderQuantityText);
+    }
+
+    private void confirmOrder (ActionEvent e) {
         f.remove(contentPanel);
         Main.showConfirmView(orderList);
         repaint(f);
     }
 
-    public void repaint(Component component){
+    private void repaint(Component component){
         SwingUtilities.invokeLater(() -> {
             component.revalidate();
             component.repaint();
