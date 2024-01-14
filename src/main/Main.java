@@ -33,10 +33,10 @@ public class Main {
             queueView = new QueueView(frame);
             titleView = new TitleView(frame);
 
-//            showMenuView();
+            showMenuView();
 //            showConfirmView();
 
-            showTitleView();
+//            showTitleView();
 
             frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
