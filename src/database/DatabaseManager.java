@@ -95,7 +95,7 @@ public class DatabaseManager {
         connection.close();
     }
 
-    public void insertToOrder(int menu_id, int order_amount, int order_price) throws SQLException {
+    public void insertToOrder(int menu_id, int order_quantity,  int order_price) throws SQLException {
         Connection connection = DriverManager.getConnection(databaseURL, "root", "");
 
         PreparedStatement preStat;
@@ -105,7 +105,7 @@ public class DatabaseManager {
         );
 
         preStat.setInt(1, menu_id);
-        preStat.setInt(2, order_amount);
+        preStat.setInt(2, order_quantity);
         preStat.setInt(3, order_price);
 
         preStat.executeUpdate();
