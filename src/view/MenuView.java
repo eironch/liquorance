@@ -220,7 +220,7 @@ public class MenuView {
             }
 
             for (int i = 0; i < orderInfoList.size(); i++) {
-                if (!orderInfoList.get(i).get(4).equals(orderList.get(x).getFirst())) {
+                if (!orderInfoList.get(i).get(5).equals(orderList.get(x).getFirst())) {
                     if (i == orderInfoList.size() - 1) {
                         removeOrderList.add(x);
                     }
