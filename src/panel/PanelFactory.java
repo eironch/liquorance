@@ -16,11 +16,22 @@ public class PanelFactory {
 
     // ------------- menu view --------------
 
-    public JLayeredPane layeredPane = new JLayeredPane();
     public ArrayList<Container> catalogRowContainerList = new ArrayList<>();
     public ArrayList<Container> liquorMenuContainerList = new ArrayList<>();
     public ArrayList<Container> categoryContainerList = new ArrayList<>();
     public Container catalogSectionContainer = new Container();
+
+    // ------------ liquor view -------------
+
+    public JLayeredPane layeredPane = new JLayeredPane();
+    public Container liquorNameContainer = new Container();
+    public Container liquorImageContainer = new Container();
+    public Container liquorInfoSectionContainer = new Container();
+    public ArrayList<Container> liquorColumnContainer = new ArrayList<>();
+    public ArrayList<Container> liquorLeftRowContainer = new ArrayList<>();
+    public ArrayList<Container> liquorRightRowContainer = new ArrayList<>();
+    public ArrayList<Container> footerColumnContainer = new ArrayList<>();
+    public Container quantitySelectorContainer = new Container();
 
 
     // ----------- confirm view -------------
@@ -38,21 +49,6 @@ public class PanelFactory {
     // ------------ title view --------------
 
     public LinkedList<Container> titleComponentContainerList = new LinkedList<>();
-
-    // ---------- quantity prompt -----------
-
-    public JPanel quantityPromptPanel = new JPanel();
-    public LinkedList<Container> quantityPromptContainerList = new LinkedList<>();
-    public Container quantitySelectorContainer = new Container();
-    public Container cancelContainer = new Container();
-    public Container confirmContainer = new Container();
-
-
-    // ---------- removal prompt ------------
-
-    public JPanel removalPromptPanel = new JPanel();
-    public LinkedList<Container> removalPromptContainerList = new LinkedList<>();
-
 
     public PanelFactory() {
         headerPanel.setLayout(new GridLayout(1, 3, 0, 0));
@@ -78,6 +74,9 @@ public class PanelFactory {
         headerContainerList.add(new Container());
         headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
 
+        bodyPanel.setLayout(new GridLayout(1, 1, 0, 0));
+        bodyPanel.setBackground(Color.LIGHT_GRAY);
+
         for (int i = 0; i < 2; i++) {
             catalogRowContainerList.add(new Container());
             catalogRowContainerList.get(i).setLayout(new GridLayout(1, 4, 0, 0));
@@ -93,32 +92,73 @@ public class PanelFactory {
             categoryContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         }
 
-        bodyPanel.setLayout(new GridLayout(1, 1, 0, 0));
-        bodyPanel.setBackground(Color.LIGHT_GRAY);
-
-        layeredPane.setLayout(null);
-
         catalogSectionContainer.setLayout(new GridLayout(2, 1, 0, 0));
-        catalogSectionContainer.setSize(Main.WIDTH, Main.HEIGHT - 160);
 
         footerPanel.setLayout(new GridLayout(1, 4, 0, 0));
         footerPanel.setBackground(Color.DARK_GRAY);
+    }
 
-        quantityPromptPanel.setLayout(new GridLayout(3, 1, 0, 0));
-        quantityPromptPanel.setBounds((Main.WIDTH / 2) - 250, (Main.HEIGHT / 2) - 230, 500, 300);
-        quantityPromptPanel.setBackground(Color.DARK_GRAY);
+    public void handleLiquorView() {
+        headerContainerList.add(new Container());
+        headerContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
+        headerContainerList.add(new Container());
+        headerContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        headerContainerList.add(new Container());
+        headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
 
-        quantityPromptContainerList.add(new Container());
-        quantityPromptContainerList.get(0).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 27));
-        quantityPromptContainerList.add(new Container());
-        quantityPromptContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-        quantityPromptContainerList.add(new Container());
-        quantityPromptContainerList.get(2).setLayout(new GridLayout(1, 2, 0, 0));
+        layeredPane.setLayout(null);
+
+        liquorNameContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 40));
+        liquorNameContainer.setSize(Main.WIDTH, Main.HEIGHT - 160);
+
+        liquorImageContainer.setLayout(new BorderLayout());
+        liquorImageContainer.setSize(Main.WIDTH, Main.HEIGHT - 160);
+
+        liquorInfoSectionContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        liquorInfoSectionContainer.setSize(Main.WIDTH, Main.HEIGHT - 160);
+
+        liquorColumnContainer.add(new Container());
+        liquorColumnContainer.get(0).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        liquorColumnContainer.get(0).setPreferredSize(new Dimension(450, Main.HEIGHT - 160));
+        liquorColumnContainer.add(new Container());
+        liquorColumnContainer.get(1).setLayout(new BorderLayout());
+        liquorColumnContainer.get(1).setPreferredSize(new Dimension(300, Main.HEIGHT - 160));
+        liquorColumnContainer.add(new Container());
+        liquorColumnContainer.get(2).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        liquorColumnContainer.get(2).setPreferredSize(new Dimension(450, Main.HEIGHT - 160));
+
+        liquorLeftRowContainer.add(new Container());
+        liquorLeftRowContainer.get(0).setLayout(new BorderLayout(0, 0));
+        liquorLeftRowContainer.get(0).setPreferredSize(new Dimension(450, 320));
+        liquorLeftRowContainer.add(new Container());
+        liquorLeftRowContainer.get(1).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 20));
+        liquorLeftRowContainer.get(1).setPreferredSize(new Dimension(450, 140));
+        liquorLeftRowContainer.add(new Container());
+        liquorLeftRowContainer.get(2).setLayout(new BorderLayout(0, 0));
+        liquorLeftRowContainer.get(2).setPreferredSize(new Dimension(450, 300));
+
+        liquorRightRowContainer.add(new Container());
+        liquorRightRowContainer.get(0).setLayout(new BorderLayout(0, 0));
+        liquorRightRowContainer.get(0).setPreferredSize(new Dimension(450, 320));
+        liquorRightRowContainer.add(new Container());
+        liquorRightRowContainer.get(1).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 20));
+        liquorRightRowContainer.get(1).setPreferredSize(new Dimension(450, 175));
+        liquorRightRowContainer.add(new Container());
+        liquorRightRowContainer.get(2).setLayout(new BorderLayout(0, 0));
+        liquorRightRowContainer.get(2).setPreferredSize(new Dimension(450, 80));
 
         quantitySelectorContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
-        cancelContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-        confirmContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        footerPanel.setLayout(new GridLayout(1, 3, 0, 0));
+        footerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
+        footerPanel.setBackground(Color.DARK_GRAY);
+
+        footerColumnContainer.add(new Container());
+        footerColumnContainer.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
+        footerColumnContainer.add(new Container());
+        footerColumnContainer.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        footerColumnContainer.add(new Container());
+        footerColumnContainer.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
     }
 
     public void handleConfirmView() {
@@ -128,8 +168,6 @@ public class PanelFactory {
         headerContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         headerContainerList.add(new Container());
         headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-
-        layeredPane.setLayout(null);
 
         orderScrollPane = new JScrollPane(orderPanel);
         orderScrollPane.setSize(Main.WIDTH, Main.HEIGHT - 160);
@@ -156,19 +194,6 @@ public class PanelFactory {
 
         confirmOrderContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
         confirmOrderContainer.setPreferredSize(new Dimension(200, 60));
-
-        removalPromptPanel.setLayout(new GridLayout(3, 1, 0, 0));
-        removalPromptPanel.setBounds((Main.WIDTH / 2) - 250, (Main.HEIGHT / 2) - 230, 500, 300);
-        removalPromptPanel.setBackground(Color.DARK_GRAY);
-
-        removalPromptContainerList.add(new Container());
-        removalPromptContainerList.add(new Container());
-        removalPromptContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-        removalPromptContainerList.add(new Container());
-        removalPromptContainerList.get(2).setLayout(new GridLayout(1, 2, 0, 0));
-
-        cancelContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-        confirmContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
     }
 
     public void handleQueueView() {
