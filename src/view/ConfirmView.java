@@ -4,6 +4,7 @@ import asset.AssetFactory;
 import component.ComponentFactory;
 import database.DatabaseManager;
 import main.Main;
+import menu.MenuDepot;
 import panel.PanelFactory;
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class ConfirmView {
     PanelFactory p = new PanelFactory();
     ComponentFactory c = new ComponentFactory();
     AssetFactory a = new AssetFactory();
+    MenuDepot m = new MenuDepot();
     int orderContainerSize = 0;
     public JPanel contentPanel = new JPanel();
     LinkedList<LinkedList<Object>> orderInfoList = new LinkedList<>();
@@ -47,10 +49,8 @@ public class ConfirmView {
         p.footerPanel.add(p.orderTotalContainer);
         p.footerPanel.add(p.confirmOrderContainer);
 
-        p.layeredPane.add(p.orderScrollPane, JLayeredPane.DEFAULT_LAYER);
-
         contentPanel.add(p.headerPanel, BorderLayout.NORTH);
-        contentPanel.add(p.layeredPane, BorderLayout.CENTER);
+        contentPanel.add(p.orderScrollPane, BorderLayout.CENTER);
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
@@ -60,14 +60,15 @@ public class ConfirmView {
         orderInfoList.clear();
         p.orderPanel.removeAll();
 
-        for (LinkedList<Object> objects : orderList) {
-            addToShownOrder((String) objects.get(1), (Integer) objects.getLast(), (Integer) objects.getFirst());
+        for (LinkedList<Object> order : orderList) {
+            addToShownOrder((String) order.get(1), (Integer) order.getLast(),
+                    (ImageIcon) order.get(2), (Integer) order.getFirst());
         }
 
         repaint(p.orderScrollPane);
     }
 
-    public void addToShownOrder(String liquorName, int orderQuantity, int menuID) {
+    public void addToShownOrder(String liquorName, int orderQuantity, ImageIcon liquorImage, int menuID) {
         Container liquorOrderSectionContainer = new Container();
         Container removeOrderContainer = new Container();
         Container liquorOrderImageContainer = new Container();
@@ -76,7 +77,7 @@ public class ConfirmView {
         Container quantitySelectorContainer = new Container();
 
         JButton removeOrderButton = new JButton();
-        JButton liquorOrderImage = new JButton();
+        JLabel liquorOrderImage = new JLabel();
         JLabel liquorOrderName = new JLabel();
         JButton decreaseQuantityButton = new JButton();
         JLabel orderQuantityText = new JLabel();
@@ -105,9 +106,8 @@ public class ConfirmView {
         removeOrderButton.setFocusable(false);
         removeOrderButton.addActionListener(this::removeOrder);
 
-        liquorOrderImage.setText("Liquor");
+        liquorOrderImage.setIcon(a.resizeIcon(liquorImage, 75, 75));
         liquorOrderImage.setPreferredSize(new Dimension(80, 80));
-        liquorOrderImage.setFocusable(false);
 
         liquorOrderName.setText(liquorName);
         liquorOrderName.setFont(c.toHelvetica(25));
@@ -130,12 +130,14 @@ public class ConfirmView {
         increaseQuantityButton.addActionListener(this::increaseQuantity);
 
         removeOrderContainer.add(removeOrderButton);
+
         liquorOrderImageContainer.add(liquorOrderImage);
         liquorOrderNameContainer.add(liquorOrderName);
 
         quantitySelectorContainer.add(decreaseQuantityButton);
         quantitySelectorContainer.add(orderQuantityText);
         quantitySelectorContainer.add(increaseQuantityButton);
+
         quantityOrderContainer.add(quantitySelectorContainer);
 
         liquorOrderSectionContainer.add(removeOrderContainer);
@@ -184,12 +186,6 @@ public class ConfirmView {
             int orderQuantity = (int) orderInfoList.get(i).getLast();
 
             if (orderQuantity == 1) {
-                p.orderPanel.remove((Component) orderInfoList.get(i).getFirst());
-
-                orderInfoList.remove(i);
-
-                repaint(p.layeredPane);
-
                 return;
             }
 
@@ -210,10 +206,14 @@ public class ConfirmView {
 
             int orderQuantity = (int) object.getLast();
 
-            object.set(4, ++orderQuantity);
-            JLabel orderQuantityText = (JLabel) object.get(1);
+            if (orderQuantity == 99) {
+                return;
+            }
 
-            orderQuantityText.setText(String.valueOf(object.get(4)));
+            object.set(6, ++orderQuantity);
+            JLabel orderQuantityText = (JLabel) object.get(3);
+
+            orderQuantityText.setText(String.valueOf(object.getLast()));
 
             repaint(orderQuantityText);
         }
