@@ -4,6 +4,7 @@ import database.DatabaseManager;
 import asset.AssetFactory;
 import component.ComponentFactory;
 import panel.PanelFactory;
+import quantity.LiquorView;
 import view.ConfirmView;
 import view.MenuView;
 import view.QueueView;
@@ -22,6 +23,7 @@ public class Main {
     final static AssetFactory assetFactory = new AssetFactory();
     static MenuView menuView;
     static ConfirmView confirmView;
+    static LiquorView liquorView;
     static QueueView queueView;
     static TitleView titleView;
     static JFrame frame = new JFrame();
@@ -30,12 +32,12 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             menuView = new MenuView(frame);
             confirmView = new ConfirmView(frame);
+            liquorView = new LiquorView(frame);
             queueView = new QueueView(frame);
             titleView = new TitleView(frame);
 
             showMenuView();
 //            showConfirmView();
-
 //            showTitleView();
 
             frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
@@ -64,26 +66,36 @@ public class Main {
         frame.getContentPane().removeAll();
         frame.add(menuView.contentPanel);
         menuView.updateOrder(orderInfoList);
-        repaint(frame.getContentPane());
+        repaint(frame);
+    }
+
+    public static void showLiquorView(LinkedList<LinkedList<Object>> orderList,
+                                      LinkedList<LinkedList<Object>> liquorMenuList,
+                                      int menuID) {
+        frame.getContentPane().removeAll();
+        frame.add(liquorView.contentPanel);
+        liquorView.showLiquor(orderList, liquorMenuList, menuID);
+        repaint(frame);
     }
 
     public static void showConfirmView() {
         frame.getContentPane().removeAll();
         frame.add(confirmView.contentPanel);
-        repaint(frame.getContentPane());
+        repaint(frame);
     }
+
     public static void showConfirmView(LinkedList<LinkedList<Object>> orderList) {
         frame.getContentPane().removeAll();
         frame.add(confirmView.contentPanel);
         confirmView.showOrder(orderList);
-        repaint(frame.getContentPane());
+        repaint(frame);
     }
 
     public static void showQueueView() {
         frame.getContentPane().removeAll();
         frame.add(queueView.contentPanel);
         queueView.showOrderNumber();
-        repaint(frame.getContentPane());
+        repaint(frame);
     }
 
     public static void repaint(Component component){
