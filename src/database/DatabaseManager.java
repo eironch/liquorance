@@ -8,8 +8,7 @@ public class DatabaseManager {
     public DatabaseManager() {
         try {
             createDatabase();
-//            createTables();
-
+            createTables();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -35,29 +34,9 @@ public class DatabaseManager {
         PreparedStatement preStat;
 
         preStat = connection.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS menu (" +
-                        "menu_id INT AUTO_INCREMENT PRIMARY KEY," +
-                        "category_id INT NOT NULL" +
-                        "name VARCHAR(16) NOT NULL," +
-                        "price int NOT NULL" +
-                        ")"
-        );
-
-        preStat.executeUpdate();
-
-        preStat = connection.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS category (" +
-                        "category_id INT AUTO_INCREMENT PRIMARY KEY," +
-                        "category_name VARCHAR(10) NOT NULL" +
-                        ")"
-        );
-
-        preStat.executeUpdate();
-
-        preStat = connection.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS order_number (" +
-                        "order_id INT AUTO_INCREMENT PRIMARY KEY," +
-                        "menu_id INT NOT NULL" +
+                "CREATE TABLE IF NOT EXISTS orders (" +
+                        "id INT AUTO_INCREMENT PRIMARY KEY," +
+                        "datetime DATETIME NOT NULL," +
                         "order_total INT NOT NULL" +
                         ")"
         );
@@ -65,10 +44,11 @@ public class DatabaseManager {
         preStat.executeUpdate();
 
         preStat = connection.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS order (" +
-                        "order_id INT AUTO_INCREMENT PRIMARY KEY," +
-                        "menu_id INT NOT NULL" +
-                        "order_quantity INT NOT NULL" +
+                "CREATE TABLE IF NOT EXISTS ordered_items (" +
+                        "order_id INT NOT NULL," +
+                        "menu_id INT NOT NULL," +
+                        "item_name VARCHAR(24) NOT NULL," +
+                        "order_quantity INT NOT NULL," +
                         "order_price INT NOT NULL" +
                         ")"
         );
@@ -78,16 +58,16 @@ public class DatabaseManager {
         connection.close();
     }
 
-    public void insertToOrderNumber(int menu_id, int order_total) throws SQLException {
+    public void insertToOrders(Timestamp dateTime, int order_total) throws SQLException {
         Connection connection = DriverManager.getConnection(databaseURL, "root", "");
 
         PreparedStatement preStat;
 
         preStat = connection.prepareStatement(
-                "INSERT INTO (menu_id, order_total) order_number VALUES (?, ?)"
+                "INSERT INTO orders (datetime, order_total) VALUES (?, ?)"
         );
 
-        preStat.setInt(1, menu_id);
+        preStat.setTimestamp(1, dateTime);
         preStat.setInt(2, order_total);
 
         preStat.executeUpdate();
@@ -95,21 +75,48 @@ public class DatabaseManager {
         connection.close();
     }
 
-    public void insertToOrder(int menu_id, int order_quantity,  int order_price) throws SQLException {
+    public void insertToOrderedItems(int order_id, int menu_id, String item_name, int order_quantity, int order_price) throws SQLException {
         Connection connection = DriverManager.getConnection(databaseURL, "root", "");
 
         PreparedStatement preStat;
 
-        preStat = connection.prepareStatement(
-                "INSERT INTO (menu_id, order_quantity, order_price) ORDER VALUES (?, ?, ?)"
+        preStat = connection.prepareStatement("INSERT INTO ordered_items (" +
+                "order_id, menu_id, item_name, order_quantity, order_price" +
+                ") VALUES (?, ?, ?, ?, ?)"
         );
 
-        preStat.setInt(1, menu_id);
-        preStat.setInt(2, order_quantity);
-        preStat.setInt(3, order_price);
+        preStat.setInt(1, order_id);
+        preStat.setInt(2, menu_id);
+        preStat.setString(3, item_name);
+        preStat.setInt(4, order_quantity);
+        preStat.setInt(5, order_price);
 
         preStat.executeUpdate();
 
         connection.close();
+    }
+
+    public int getOrderIdOfLatest() throws SQLException {
+        Connection connection =  DriverManager.getConnection(databaseURL, "root", "");
+
+        PreparedStatement preStat;
+
+        preStat = connection.prepareStatement(
+                "SELECT id FROM orders ORDER BY id DESC LIMIT 2"
+        );
+
+        ResultSet resultSet = preStat.executeQuery();
+
+        if (resultSet.next()){
+            int orderID = resultSet.getInt("id");
+
+            connection.close();
+
+            return orderID;
+        }
+
+        connection.close();
+
+        return 0;
     }
 }
