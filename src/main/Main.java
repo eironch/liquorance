@@ -36,9 +36,9 @@ public class Main {
             queueView = new QueueView(frame);
             titleView = new TitleView(frame);
 
-            showMenuView();
+//            showMenuView();
 //            showConfirmView();
-//            showTitleView();
+            showTitleView();
 
             frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,12 +69,10 @@ public class Main {
         repaint(frame);
     }
 
-    public static void showLiquorView(LinkedList<LinkedList<Object>> orderList,
-                                      LinkedList<LinkedList<Object>> liquorMenuList,
-                                      int menuID) {
+    public static void showLiquorView(LinkedList<LinkedList<Object>> orderList, int menuID) {
         frame.getContentPane().removeAll();
         frame.add(liquorView.contentPanel);
-        liquorView.showLiquor(orderList, liquorMenuList, menuID);
+        liquorView.showLiquor(orderList, menuID);
         repaint(frame);
     }
 
@@ -91,11 +89,17 @@ public class Main {
         repaint(frame);
     }
 
-    public static void showQueueView() {
+    public static void showQueueView(LinkedList<LinkedList<Object>> orderInfoList, int orderTotal) {
         frame.getContentPane().removeAll();
         frame.add(queueView.contentPanel);
-        queueView.showOrderNumber();
+        queueView.processOrder(orderInfoList, orderTotal);
         repaint(frame);
+    }
+
+    public static void clearAllLists() {
+        menuView.clearLists();
+        liquorView.clearLists();
+        confirmView.clearLists();
     }
 
     public static void repaint(Component component){
