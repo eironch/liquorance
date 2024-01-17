@@ -8,6 +8,7 @@ import java.util.LinkedList;
 public class MenuDepot {
     public LinkedList<LinkedList<Object>> cocktailMenuInfoList = new LinkedList<>();
     AssetFactory a = new AssetFactory();
+
     public MenuDepot() {
         cocktailMenuInfoList.add(new LinkedList<>(Arrays.asList(
                 0, // 0
@@ -16,9 +17,11 @@ public class MenuDepot {
                 "A harmonious blend of rich dark rum and fiery ginger beer, the Dark and Stormy is a cocktail that embodies the power and intensity of a storm, balanced with a touch of sweetness.",
                 "Dark Rum,  Ginger Beer", // 4
                 a.cocktailIconList.get(0), // 5
-                171f, // 6
-                280 // 7
+                a.cocktailCenteredIconList.get(0), // 6
+                171f, // 7
+                280 // 8
         )));
+
         cocktailMenuInfoList.add(new LinkedList<>(Arrays.asList(
                 1,
                 "Manhattan",
@@ -26,6 +29,7 @@ public class MenuDepot {
                 "The Manhattan Cocktail is a classic concoction that marries the robustness of rye whiskey with the subtle notes of vermouth, creating a smooth and elegant sip reminiscent of city lights.",
                 "Rye Whiskey, Sweet Vermouth, Angostura Bitters, Maraschino Cherry (for garnish)",
                 a.cocktailIconList.get(1),
+                a.cocktailCenteredIconList.get(1),
                 260f,
                 320
         )));
@@ -37,6 +41,7 @@ public class MenuDepot {
                 "The Planter’s Punch is a tropical escape in a glass, blending the sweetness of fruit juices with the kick of dark rum, making it the perfect drink to unwind and relax.",
                 "Dark Rum, Orange Juice, Pineapple Juice, Grenadine, Angostura Bitters",
                 a.cocktailIconList.get(2),
+                a.cocktailCenteredIconList.get(2),
                 174f,
                 300
         )));
@@ -48,7 +53,8 @@ public class MenuDepot {
                 "The White Russian is a luxurious treat that brings together the boldness of vodka, the richness of coffee liqueur, and the smoothness of cream, creating a drink that's as sophisticated as it is delicious.",
                 "Vodka, Coffee Liqueur, Cream",
                 a.cocktailIconList.get(3),
-                199f,
+                a.cocktailCenteredIconList.get(3),
+                198f,
                 340
         )));
 
@@ -59,6 +65,7 @@ public class MenuDepot {
                 "The Screwdriver is an uncomplicated and refreshing blend of vodka and orange juice, perfect for those who appreciate the beauty of simplicity in a cocktail.",
                 "Vodka, Orange Juice",
                 a.cocktailIconList.get(4),
+                a.cocktailCenteredIconList.get(4),
                 220f,
                 260
         )));
@@ -70,6 +77,7 @@ public class MenuDepot {
                 "The Tom Collins is a timeless classic that captures the essence of summer. Crisp and citrusy, it combines the botanical notes of gin with the tartness of lemon, making it an irresistible choice for any occasion.",
                 "Gin, Lemon Juice, Simple Syrup, Soda Water",
                 a.cocktailIconList.get(5),
+                a.cocktailCenteredIconList.get(5),
                 233f,
                 300
         )));
@@ -81,6 +89,7 @@ public class MenuDepot {
                 "The Zombie is a powerful and mysterious blend of dark and light rums, tropical fruit juices, and a hint of intrigue. Sip with caution, as this cocktail has the power to resurrect your taste buds.",
                 "Dark Rum, Light Rum, Pineapple Juice, Orange Juice, Grenadine, Angostura Bitters",
                 a.cocktailIconList.get(6),
+                a.cocktailCenteredIconList.get(6),
                 267f,
                 380
         )));
@@ -92,6 +101,7 @@ public class MenuDepot {
                 "Sangria is a celebration in a glass, combining the boldness of red wine with the spirited kick of brandy and an assortment of fresh fruits, delivering a burst of flavors that dance on your taste buds.",
                 "Red Wine, Brandy, Orange Juice, Mixed Fruits (Oranges, Lemons, Berries)",
                 a.cocktailIconList.get(7),
+                a.cocktailCenteredIconList.get(7),
                 267f,
                 320
         )));
