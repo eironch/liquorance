@@ -10,6 +10,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.LinkedList;
 
 public class QueueView {
     JFrame f;
@@ -47,11 +52,39 @@ public class QueueView {
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
-    public void showOrderNumber() {
-        Timer timer = new Timer(3000, new ActionListener() {
+    public void processOrder(LinkedList<LinkedList<Object>> orderInfoList, int orderTotal) {
+        int orderID;
+
+        try {
+            d.insertToOrders(Timestamp.valueOf(LocalDateTime.now()), orderTotal);
+            orderID = d.getOrderIdOfLatest();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (LinkedList<Object> order : orderInfoList) {
+            try {
+                d.insertToOrderedItems(orderID,
+                        (Integer) order.getFirst(),
+                        (String) order.get(9),
+                        (Integer) order.getLast(),
+                        (Integer) order.get(7)
+                );
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        c.orderNumberText.setText(String.valueOf(orderID));
+
+        c.orderTotalText.setText("PHP " + String.format("%,d", orderTotal) + ".00");
+
+        Timer timer = new Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.showTitleView();
+                Main.clearAllLists();
                 ((Timer) e.getSource()).stop();
             }
         });
