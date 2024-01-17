@@ -132,7 +132,7 @@ public class PanelFactory {
         liquorLeftRowContainer.get(0).setPreferredSize(new Dimension(450, 320));
         liquorLeftRowContainer.add(new Container());
         liquorLeftRowContainer.get(1).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 20));
-        liquorLeftRowContainer.get(1).setPreferredSize(new Dimension(450, 140));
+        liquorLeftRowContainer.get(1).setPreferredSize(new Dimension(450, 155));
         liquorLeftRowContainer.add(new Container());
         liquorLeftRowContainer.get(2).setLayout(new BorderLayout(0, 0));
         liquorLeftRowContainer.get(2).setPreferredSize(new Dimension(450, 300));
@@ -142,7 +142,7 @@ public class PanelFactory {
         liquorRightRowContainer.get(0).setPreferredSize(new Dimension(450, 320));
         liquorRightRowContainer.add(new Container());
         liquorRightRowContainer.get(1).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 20));
-        liquorRightRowContainer.get(1).setPreferredSize(new Dimension(450, 175));
+        liquorRightRowContainer.get(1).setPreferredSize(new Dimension(450, 190));
         liquorRightRowContainer.add(new Container());
         liquorRightRowContainer.get(2).setLayout(new BorderLayout(0, 0));
         liquorRightRowContainer.get(2).setPreferredSize(new Dimension(450, 80));
