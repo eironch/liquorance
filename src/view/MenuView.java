@@ -152,9 +152,9 @@ public class MenuView {
             }
 
             for (int i = 0; i < orderInfoList.size(); i++) {
-                if (!orderInfoList.get(i).get(5).equals(orderList.get(x).getFirst())) {
+                if (!orderInfoList.get(i).getFirst().equals(orderList.get(x).getFirst())) {
                     if (i == orderInfoList.size() - 1) {
-                        removeOrderList.add(x);
+                        removeOrderList.add((int) orderList.get(x).getFirst());
                     }
 
                     continue;
@@ -164,14 +164,22 @@ public class MenuView {
                     break;
                 }
 
-                orderList.get(i).set(3, orderInfoList.get(i).getLast());
+                orderList.get(i).set(1, orderInfoList.get(i).getLast());
 
                 break;
             }
         }
 
-        for (int index : removeOrderList) {
-            orderList.remove(index);
+        for (int id : removeOrderList) {
+            for (int i = 0; i < orderList.size(); i++) {
+                if (!orderList.get(i).getFirst().equals(id)) {
+                    continue;
+                }
+
+                orderList.remove(i);
+
+                break;
+            }
         }
 
         removeOrderList.clear();
@@ -189,13 +197,19 @@ public class MenuView {
             break;
         }
 
-        Main.showLiquorView(orderList, liquorMenuList, menuID);
+        Main.showLiquorView(orderList, menuID);
     }
 
     private void confirmOrder (ActionEvent e) {
-        f.remove(contentPanel);
+        if (orderList.isEmpty()) {
+            return;
+        }
+
         Main.showConfirmView(orderList);
-        repaint(f);
+    }
+
+    public void clearLists() {
+        orderList.clear();
     }
 
     private void repaint(Component component){
