@@ -12,27 +12,52 @@ public class AssetFactory {
     public Font lora;
 
     public LinkedList<ImageIcon> cocktailIconList = new LinkedList<>();
-
+    public LinkedList<ImageIcon> cocktailCenteredIconList = new LinkedList<>();
     public AssetFactory() {
-        cocktailIconList.add(new ImageIcon("media/darkAndStormyIcon.png"));
-        cocktailIconList.add(new ImageIcon("media/manhattanIcon.png"));
-        cocktailIconList.add(new ImageIcon("media/plantersPunchIcon.png"));
-        cocktailIconList.add(new ImageIcon("media/whiteRussianIcon.png"));
-        cocktailIconList.add(new ImageIcon("media/screwdriverIcon.png"));
-        cocktailIconList.add(new ImageIcon("media/tomCollinsIcon.png"));
-        cocktailIconList.add(new ImageIcon("media/zombieIcon.png"));
-        cocktailIconList.add(new ImageIcon("media/sangriaIcon.png"));
+        tanGrandeur = loadFontFromFile("media/font/tanGrandeurFont.ttf");
+        metanoia = loadFontFromFile("media/font/metanoiaFont.ttf");
+        lora = loadFontFromFile("media/font/loraFont.ttf");
 
-        tanGrandeur = loadFontFromFile("media/tanGrandeurFont.ttf");
-        metanoia = loadFontFromFile("media/metanoiaFont.ttf");
-        lora = loadFontFromFile("media/loraFont.ttf");
+        cocktailIconList.add(new ImageIcon("media/menuIcon/darkAndStormyIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/manhattanIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/plantersPunchIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/whiteRussianIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/screwdriverIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/tomCollinsIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/zombieIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/sangriaIcon.png"));
+
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/darkAndStormyCenteredIcon.png"
+        ));
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/manhattanCenteredIcon.png"
+        ));
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/plantersPunchCenteredIcon.png"
+        ));
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/whiteRussianCenteredIcon.png"
+        ));
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/screwdriverCenteredIcon.png"
+        ));
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/tomCollinsCenteredIcon.png"
+        ));
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/zombieCenteredIcon.png"
+        ));
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/sangriaCenteredIcon.png"
+        ));
     }
 
     public ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
         return new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
     }
 
-    // creates font and returns a default font if not available
+    // returns a new font, returns a default font if not available
     private static Font loadFontFromFile(String fontFilePath) {
         try {
             return Font.createFont(Font.TRUETYPE_FONT, new File(fontFilePath));
