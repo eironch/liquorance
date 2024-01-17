@@ -66,12 +66,12 @@ public class ComponentFactory {
     }
 
     public void handleTitleView() {
-        titleText.setFont(toHelvetica(150));
+        titleText.setFont(a.metanoia.deriveFont(150f));
         titleText.setPreferredSize(new Dimension(Main.WIDTH, 180));
         titleText.setHorizontalAlignment(JLabel.CENTER);
 
         taglineText.setText("Have your night.");
-        taglineText.setFont(toHelvetica(40));
+        taglineText.setFont(a.lora.deriveFont(40f));
         taglineText.setForeground(Color.WHITE);
 
         openCatalogButton.setText("See Catalog");
@@ -123,7 +123,7 @@ public class ComponentFactory {
         liquorBackgroundName.setForeground(Color.BLACK);
 
         liquorImage.setPreferredSize(new Dimension(300, Main.HEIGHT - 160));
-        liquorImage.setBorder(BorderFactory.createEmptyBorder(-150, 0, 0, 0));
+        liquorImage.setBorder(BorderFactory.createEmptyBorder(-120, 0, 0, 0));
         liquorImage.setHorizontalAlignment(JLabel.CENTER);
         liquorImage.setForeground(Color.DARK_GRAY);
 
@@ -182,7 +182,6 @@ public class ComponentFactory {
         returnButton.setPreferredSize(new Dimension(100, 60));
         returnButton.setFocusable(false);
 
-        orderTotalText.setText("Order Total: PHP 10,000.00");
         orderTotalText.setFont(toHelvetica(40));
         orderTotalText.setForeground(Color.WHITE);
 
@@ -196,23 +195,21 @@ public class ComponentFactory {
         orderNumberContext.setPreferredSize(new Dimension(Main.WIDTH, 330));
         orderNumberContext.setHorizontalAlignment(JLabel.CENTER);
         orderNumberContext.setVerticalAlignment(JLabel.CENTER);
-        orderNumberContext.setFont(toHelvetica(50));
+        orderNumberContext.setFont(a.lora.deriveFont(50f));
         orderNumberContext.setForeground(Color.BLACK);
 
-        orderNumberText.setText("200");
-        orderNumberText.setFont(toHelvetica(250));
+        orderNumberText.setFont(a.lora.deriveFont(Font.BOLD, 250f));
         orderNumberText.setBorder(BorderFactory.createEmptyBorder(-55, 0, 0, 0));
         orderNumberText.setForeground(Color.BLACK);
 
-        orderTotalContext.setText("Please Prepare Your Payment Of");
+        orderTotalContext.setText("Please prepare your payment of");
         orderTotalContext.setPreferredSize(new Dimension(Main.WIDTH, 70));
         orderTotalContext.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0));
         orderTotalContext.setHorizontalAlignment(JLabel.CENTER);
-        orderTotalContext.setFont(toHelvetica(32));
+        orderTotalContext.setFont(a.lora.deriveFont(32f));
         orderTotalContext.setForeground(Color.BLACK);
 
-        orderTotalText.setText("PHP 10,000.00");
-        orderTotalText.setFont(toHelvetica(37));
+        orderTotalText.setFont(a.lora.deriveFont(Font.BOLD, 37f));
         orderTotalText.setForeground(Color.BLACK);
     }
 
