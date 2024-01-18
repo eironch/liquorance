@@ -1,14 +1,12 @@
 package quantity;
 
+import main.Main;
 import asset.AssetFactory;
 import component.ComponentFactory;
-import database.DatabaseManager;
-import main.Main;
 import menu.MenuDepot;
 import panel.PanelFactory;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
@@ -16,14 +14,13 @@ import java.util.LinkedList;
 
 public class LiquorView {
     JFrame f;
-    DatabaseManager d = new DatabaseManager();
     PanelFactory p = new PanelFactory();
     ComponentFactory c = new ComponentFactory();
     AssetFactory a = new AssetFactory();
     MenuDepot m = new MenuDepot();
-    public JPanel contentPanel = new JPanel();
     static int menuID;
     static int orderQuantity;
+    public JPanel contentPanel = new JPanel();
     static LinkedList<LinkedList<Object>> orderList = new LinkedList<>();
 
     public LiquorView(JFrame frame) {
@@ -71,9 +68,9 @@ public class LiquorView {
             p.liquorInfoSectionContainer.add(p.liquorColumnContainer.get(i));
         }
 
-        p.layeredPane.add(p.liquorInfoSectionContainer, 0);
-        p.layeredPane.add(p.liquorImageContainer, 1);
-        p.layeredPane.add(p.liquorNameContainer, 2);
+        p.liquorLayeredPane.add(p.liquorInfoSectionContainer, 0);
+        p.liquorLayeredPane.add(p.liquorImageContainer, 1);
+        p.liquorLayeredPane.add(p.liquorNameContainer, 2);
 
         p.quantitySelectorContainer.add(c.decreaseQuantityButton);
         p.quantitySelectorContainer.add(c.orderQuantityText);
@@ -95,7 +92,7 @@ public class LiquorView {
         }
 
         contentPanel.add(p.headerPanel, BorderLayout.NORTH);
-        contentPanel.add(p.layeredPane, BorderLayout.CENTER);
+        contentPanel.add(p.liquorLayeredPane, BorderLayout.CENTER);
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
@@ -122,48 +119,46 @@ public class LiquorView {
                 continue;
             }
 
-//            SwingUtilities.invokeLater(() -> {
-                c.liquorBackgroundName.setText((String) liquor.get(1));
-                c.liquorBackgroundName.setFont(a.tanGrandeur.deriveFont((Float) liquor.get(7)));
+            c.liquorBackgroundName.setText((String) liquor.get(1));
+            c.liquorBackgroundName.setFont(a.tanGrandeur.deriveFont((Float) liquor.get(7)));
 
-                c.liquorImage.setIcon(a.resizeIcon(
-                        (ImageIcon) liquor.get(5), 650, 650)
-                );
+            c.liquorImage.setIcon(a.resizeIcon(
+                    (ImageIcon) liquor.get(5), 650, 650)
+            );
 
-                repaint(p.layeredPane);
+            repaint(p.liquorLayeredPane);
 
-                c.liquorForegroundName.setText(String.valueOf(liquor.get(1)));
+            c.liquorForegroundName.setText(String.valueOf(liquor.get(1)));
 
-                c.liquorFlavorText.setText("<html><div style='text-align: right;'>" +
-                        liquor.get(2) +
-                        "</div></html>"
-                );
+            c.liquorFlavorText.setText("<html><div style='text-align: right;'>" +
+                    liquor.get(2) +
+                    "</div></html>"
+            );
 
-                c.liquorPriceText.setText("PHP " + liquor.getLast());
+            c.liquorPriceText.setText("PHP " + liquor.getLast());
 
-                c.liquorCategoryText.setText("<html><i>" +
-                        "Cocktail" +
-                        "</i></html>"
-                );
+            c.liquorCategoryText.setText("<html><i>" +
+                    "Cocktail" +
+                    "</i></html>"
+            );
 
-                c.liquorDescriptionText.setText("<html><div style='text-align: left;'><i>" +
-                        liquor.get(3) +
-                        "</i></div></html>"
-                );
+            c.liquorDescriptionText.setText("<html><div style='text-align: left;'><i>" +
+                    liquor.get(3) +
+                    "</i></div></html>"
+            );
 
-                c.liquorIngredientsText.setText("<html><div style='text-align: left;'><i>" +
-                        "Ingredients:<br>" +
-                        liquor.get(4) +
-                        "</i></div></html>"
-                );
+            c.liquorIngredientsText.setText("<html><div style='text-align: left;'><i>" +
+                    "Ingredients:<br>" +
+                    liquor.get(4) +
+                    "</i></div></html>"
+            );
 
-                repaint(p.layeredPane);
-//            });
+            repaint(p.liquorLayeredPane);
 
             break;
         }
 
-        repaint(p.layeredPane);
+        repaint(p.liquorLayeredPane);
     }
 
     public void clearLists() {
@@ -244,7 +239,9 @@ public class LiquorView {
         };
     }
 
-    private static MouseListener createUIMouseListener(LinkedList<LinkedList<Object>> cocktailMenuInfoList, ComponentFactory c, AssetFactory a) {
+    private static MouseListener createUIMouseListener(
+            LinkedList<LinkedList<Object>> cocktailMenuInfoList,
+            ComponentFactory c, AssetFactory a) {
         return new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
