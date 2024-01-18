@@ -16,17 +16,22 @@ public class AssetFactory {
     public Color cocoa;
 
     public ImageIcon logoIcon;
+    public ImageIcon logoTextIcon;
     public ImageIcon touchIcon;
     public LinkedList<ImageIcon> cocktailIconList = new LinkedList<>();
     public LinkedList<ImageIcon> cocktailCenteredIconList = new LinkedList<>();
     public LinkedList<ImageIcon> uiButtonIconList = new LinkedList<>();
     public LinkedList<ImageIcon> uiButtonSelectedIconList = new LinkedList<>();
+    public ImageIcon orderContainerIcon;
     public ImageIcon menuButtonIcon;
     public ImageIcon menuButtonSelectedIcon;
+    public ImageIcon removeButtonIcon;
+    public ImageIcon removeSelectedButtonIcon;
     public ImageIcon decreaseButtonIcon;
     public ImageIcon increaseButtonIcon;
     public ImageIcon decreaseSelectedButtonIcon;
     public ImageIcon increaseSelectedButtonIcon;
+    public ImageIcon decor0Icon;
 
     public AssetFactory() {
         tanGrandeur = loadFontFromFile("media/font/tanGrandeurFont.ttf");
@@ -36,7 +41,8 @@ public class AssetFactory {
         burgundy = createColor(0x2E1412);
         cocoa = createColor(0xBC9F7C);
 
-        logoIcon = new ImageIcon("media/uiIcon/logoIcon.png");
+        logoIcon = new ImageIcon("media/logoIcon.png");
+        logoTextIcon = new ImageIcon("media/uiIcon/logoTextIcon.png");
         touchIcon = new ImageIcon("media/uiIcon/touchIcon.png");
 
         cocktailIconList.add(new ImageIcon("media/menuIcon/darkAndStormyIcon.png"));
@@ -91,8 +97,13 @@ public class AssetFactory {
                 new ImageIcon("media/uiIcon/uiButtonSelected3Icon.png"
         ));
 
+        orderContainerIcon = new ImageIcon("media/uiIcon/orderContainerIcon.png");
+
         menuButtonIcon = new ImageIcon("media/uiIcon/menuButtonIcon.png");
         menuButtonSelectedIcon = new ImageIcon("media/uiIcon/menuButtonSelectedIcon.png");
+
+        removeButtonIcon = new ImageIcon("media/uiIcon/removeButtonIcon.png");
+        removeSelectedButtonIcon = new ImageIcon("media/uiIcon/removeSelectedButtonIcon.png");
 
         decreaseButtonIcon = new ImageIcon("media/uiIcon/decreaseButtonIcon.png");
         increaseButtonIcon = new ImageIcon("media/uiIcon/increaseButtonIcon.png");
@@ -103,6 +114,8 @@ public class AssetFactory {
         increaseSelectedButtonIcon = new ImageIcon(
                 "media/uiIcon/increaseSelectedButtonIcon.png"
         );
+
+        decor0Icon = new ImageIcon("media/uiIcon/decor0Icon.png");
     }
 
     public ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
