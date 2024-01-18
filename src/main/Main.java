@@ -1,15 +1,11 @@
 package main;
 
-import database.DatabaseManager;
 import asset.AssetFactory;
-import component.ComponentFactory;
-import panel.PanelFactory;
 import quantity.LiquorView;
 import view.ConfirmView;
 import view.MenuView;
 import view.QueueView;
 import view.TitleView;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -17,15 +13,12 @@ import java.util.LinkedList;
 public class Main {
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 800;
-    final static DatabaseManager databaseManager = new DatabaseManager();
-    final static PanelFactory panelFactory = new PanelFactory();
-    final static ComponentFactory componentFactory = new ComponentFactory();
-    final static AssetFactory assetFactory = new AssetFactory();
     static MenuView menuView;
     static ConfirmView confirmView;
     static LiquorView liquorView;
     static QueueView queueView;
     static TitleView titleView;
+    static AssetFactory a = new AssetFactory();
     static JFrame frame = new JFrame();
     static JPanel views = new JPanel();
 
@@ -44,11 +37,10 @@ public class Main {
             views.add(liquorView.contentPanel, "liquor");
             views.add(queueView.contentPanel, "queue");
 
-//            showMenuView();
-//            showConfirmView();
             showTitleView();
 
             frame.add(views);
+            frame.setIconImage(a.logoIcon.getImage());
             frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -104,12 +96,5 @@ public class Main {
         menuView.clearLists();
         liquorView.clearLists();
         confirmView.clearLists();
-    }
-
-    public static void repaint(Component component){
-        SwingUtilities.invokeLater(() -> {
-            component.revalidate();
-            component.repaint();
-        });
     }
 }
