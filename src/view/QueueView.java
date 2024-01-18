@@ -1,15 +1,11 @@
 package view;
 
-import asset.AssetFactory;
+import main.Main;
 import component.ComponentFactory;
 import database.DatabaseManager;
-import main.Main;
 import panel.PanelFactory;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -20,7 +16,6 @@ public class QueueView {
     DatabaseManager d = new DatabaseManager();
     PanelFactory p = new PanelFactory();
     ComponentFactory c = new ComponentFactory();
-    AssetFactory a = new AssetFactory();
     public JPanel contentPanel = new JPanel();
 
     public QueueView(JFrame frame) {
@@ -45,6 +40,8 @@ public class QueueView {
         for (int i = 0; i < p.queueComponentContainerList.size(); i++) {
             p.bodyPanel.add(p.queueComponentContainerList.get(i));
         }
+
+        p.footerPanel.add(c.decorImage);
 
         contentPanel.add(p.headerPanel, BorderLayout.NORTH);
         contentPanel.add(p.bodyPanel, BorderLayout.CENTER);
@@ -79,13 +76,10 @@ public class QueueView {
 
         c.orderTotalText.setText("PHP " + String.format("%,d", orderTotal) + ".00");
 
-        Timer timer = new Timer(5000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.showTitleView();
-                Main.clearAllLists();
-                ((Timer) e.getSource()).stop();
-            }
+        Timer timer = new Timer(5000, e -> {
+            Main.showTitleView();
+            Main.clearAllLists();
+            ((Timer) e.getSource()).stop();
         });
 
         timer.start();
