@@ -1,8 +1,7 @@
 package component;
 
-import asset.AssetFactory;
 import main.Main;
-
+import asset.AssetFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -45,6 +44,7 @@ public class ComponentFactory {
     public JLabel confirmOrderButton = new JLabel();
     public JLabel orderTotalContext = new JLabel();
     public JLabel orderTotalText = new JLabel();
+    public JLabel decorImage = new JLabel();
 
 
     // ------------ queue view --------------
@@ -60,7 +60,7 @@ public class ComponentFactory {
 
     public void handleTitleView() {
         logoImage.setText("");
-        logoImage.setIcon(a.resizeIcon(a.logoIcon, 800, 800));
+        logoImage.setIcon(a.resizeIcon(a.logoTextIcon, 800, 800));
         logoImage.setPreferredSize(new Dimension(Main.WIDTH, 200));
         logoImage.setHorizontalAlignment(JLabel.CENTER);
 
@@ -228,6 +228,9 @@ public class ComponentFactory {
         confirmOrderButton.setVerticalTextPosition(JLabel.CENTER);
         confirmOrderButton.setBackground(a.burgundy);
         confirmOrderButton.setForeground(a.cocoa);
+
+        decorImage.setIcon(a.resizeIcon(a.decor0Icon, 425, 2));
+        decorImage.setPreferredSize(new Dimension(425, 60));
     }
 
     public void handleQueueView() {
@@ -251,9 +254,8 @@ public class ComponentFactory {
 
         orderTotalText.setFont(a.lora.deriveFont(Font.BOLD, 37f));
         orderTotalText.setForeground(a.cocoa);
-    }
 
-    public Font toHelvetica(int size){
-        return new Font("Helvetica", Font.BOLD, size);
+        decorImage.setIcon(a.resizeIcon(a.decor0Icon, 425, 2));
+        decorImage.setPreferredSize(new Dimension(425, 60));
     }
 }
