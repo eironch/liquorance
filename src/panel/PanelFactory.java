@@ -1,5 +1,6 @@
 package panel;
 
+import asset.AssetFactory;
 import main.Main;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -8,16 +9,22 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class PanelFactory {
+    static AssetFactory a = new AssetFactory();
     public JPanel headerPanel = new JPanel();
     public JPanel bodyPanel = new JPanel();
     public JPanel footerPanel = new JPanel();
     public ArrayList<Container> headerContainerList = new ArrayList<>();
 
+    // ------------ title view --------------
+
+    public LinkedList<Container> titleComponentContainerList = new LinkedList<>();
 
     // ------------- menu view --------------
 
-    public ArrayList<Container> catalogRowContainerList = new ArrayList<>();
-    public ArrayList<Container> liquorMenuContainerList = new ArrayList<>();
+    public ArrayList<Container> menuRowContainerList = new ArrayList<>();
+    public ArrayList<JLayeredPane> liquorLayeredPaneList = new ArrayList<>();
+    public ArrayList<Container> liquorButtonContainerList = new ArrayList<>();
+    public ArrayList<Container> liquorImageTextContainerList = new ArrayList<>();
     public ArrayList<Container> categoryContainerList = new ArrayList<>();
     public Container catalogSectionContainer = new Container();
 
@@ -39,26 +46,21 @@ public class PanelFactory {
     public JScrollPane orderScrollPane;
     public JScrollBar verticalScrollBar;
     public JPanel orderPanel = new JPanel();
-    public Container orderTotalContainer = new Container();
-    public Container confirmOrderContainer = new Container();
+    public LinkedList<Container> orderTotalContainerList = new LinkedList<>();
 
     // ------------ queue view --------------
 
     public LinkedList<Container> queueComponentContainerList = new LinkedList<>();
 
-    // ------------ title view --------------
-
-    public LinkedList<Container> titleComponentContainerList = new LinkedList<>();
-
     public PanelFactory() {
         headerPanel.setLayout(new GridLayout(1, 3, 0, 0));
         headerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
-        headerPanel.setBackground(Color.DARK_GRAY);
+        headerPanel.setBackground(a.burgundy);
     }
 
     public void handleTitleView() {
         bodyPanel.setLayout(new GridLayout(3, 1, 0, 0));
-        bodyPanel.setBackground(Color.DARK_GRAY);
+        bodyPanel.setBackground(a.burgundy);
 
         for (int i = 0; i < 3; i++) {
             titleComponentContainerList.add(new Container());
@@ -68,43 +70,52 @@ public class PanelFactory {
 
     public void handleMenuView() {
         headerContainerList.add(new Container());
-        headerContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
+        headerContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
         headerContainerList.add(new Container());
         headerContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         headerContainerList.add(new Container());
-        headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+        headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
         bodyPanel.setLayout(new GridLayout(1, 1, 0, 0));
-        bodyPanel.setBackground(Color.LIGHT_GRAY);
+        bodyPanel.setBackground(a.burgundy);
 
-        for (int i = 0; i < 2; i++) {
-            catalogRowContainerList.add(new Container());
-            catalogRowContainerList.get(i).setLayout(new GridLayout(1, 4, 0, 0));
+        for (int i = 0; i < 8; i++) {
+            liquorLayeredPaneList.add(new JLayeredPane());
+            liquorLayeredPaneList.get(i).setLayout(null);
+            liquorLayeredPaneList.get(i).setPreferredSize(new Dimension(280, 280));
         }
 
         for (int i = 0; i < 8; i++) {
-            liquorMenuContainerList.add(new Container());
-            liquorMenuContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            liquorImageTextContainerList.add(new Container());
+            liquorImageTextContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            liquorImageTextContainerList.get(i).setSize(280, 280);
         }
 
-        for (int i = 0; i < 5; i++) {
-            categoryContainerList.add(new Container());
-            categoryContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        for (int i = 0; i < 8; i++) {
+            liquorButtonContainerList.add(new Container());
+            liquorButtonContainerList.get(i).setLayout(new GridLayout(1, 1, 0, 0));
+            liquorButtonContainerList.get(i).setSize(280, 280);
         }
 
-        catalogSectionContainer.setLayout(new GridLayout(2, 1, 0, 0));
+        for (int i = 0; i < 2; i++) {
+            menuRowContainerList.add(new Container());
+            menuRowContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        }
+
+        catalogSectionContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        catalogSectionContainer.setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT - 80));
 
         footerPanel.setLayout(new GridLayout(1, 4, 0, 0));
-        footerPanel.setBackground(Color.DARK_GRAY);
+        footerPanel.setBackground(a.burgundy);
     }
 
     public void handleLiquorView() {
         headerContainerList.add(new Container());
-        headerContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
+        headerContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
         headerContainerList.add(new Container());
         headerContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         headerContainerList.add(new Container());
-        headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+        headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
         layeredPane.setLayout(null);
 
@@ -151,49 +162,52 @@ public class PanelFactory {
 
         footerPanel.setLayout(new GridLayout(1, 3, 0, 0));
         footerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
-        footerPanel.setBackground(Color.DARK_GRAY);
+        footerPanel.setBackground(a.burgundy);
 
         footerColumnContainer.add(new Container());
-        footerColumnContainer.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
+        footerColumnContainer.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 0, 20));
         footerColumnContainer.add(new Container());
         footerColumnContainer.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         footerColumnContainer.add(new Container());
-        footerColumnContainer.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+        footerColumnContainer.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 20));
     }
 
     public void handleConfirmView() {
         headerContainerList.add(new Container());
-        headerContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 10, 10));
+        headerContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
         headerContainerList.add(new Container());
         headerContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         headerContainerList.add(new Container());
-        headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
         orderScrollPane = new JScrollPane(orderPanel);
         orderScrollPane.setSize(Main.WIDTH, Main.HEIGHT - 160);
         orderScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         orderScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        orderScrollPane.setBackground(Color.LIGHT_GRAY);
         orderScrollPane.getVerticalScrollBar().setUnitIncrement(7);
-        orderScrollPane.getVerticalScrollBar().setBackground(Color.LIGHT_GRAY);
+        orderScrollPane.getVerticalScrollBar().setBackground(a.burgundy);
         orderScrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         orderScrollPane.getVerticalScrollBar().setBorder(null);
         orderScrollPane.getVerticalScrollBar().setFocusable(false);
+        orderScrollPane.setBackground(a.burgundy);
         orderScrollPane.setBorder(null);
         verticalScrollBar = orderScrollPane.getVerticalScrollBar();
 
         orderPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         orderPanel.setPreferredSize(new Dimension(Main.WIDTH, 0));
-        orderPanel.setBackground(Color.LIGHT_GRAY);
+        orderPanel.setBackground(a.burgundy);
 
-        footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-        footerPanel.setBackground(Color.DARK_GRAY);
+        footerPanel.setLayout(new GridLayout(1, 3, 0, 10));
+        footerPanel.setBackground(a.burgundy);
 
-        orderTotalContainer.setLayout(new FlowLayout(FlowLayout.LEADING, 20, 5));
-        orderTotalContainer.setPreferredSize(new Dimension(1080, 60));
+        orderTotalContainerList.add(new Container());
+        orderTotalContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 15, 10));
 
-        confirmOrderContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        confirmOrderContainer.setPreferredSize(new Dimension(200, 60));
+        orderTotalContainerList.add(new Container());
+        orderTotalContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
+        orderTotalContainerList.add(new Container());
+        orderTotalContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 15, 10));
     }
 
     public void handleQueueView() {
@@ -205,7 +219,7 @@ public class PanelFactory {
         headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 10, 10));
 
         bodyPanel.setLayout(new GridLayout(3, 1, 0, 0));
-        bodyPanel.setBackground(Color.LIGHT_GRAY);
+        bodyPanel.setBackground(a.burgundy);
 
         queueComponentContainerList.add(new Container());
         queueComponentContainerList.getLast().setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -216,7 +230,7 @@ public class PanelFactory {
 
         footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
         footerPanel.setPreferredSize(new Dimension(Main.WIDTH, 80));
-        footerPanel.setBackground(Color.LIGHT_GRAY);
+        footerPanel.setBackground(a.burgundy);
     }
 
     static class CustomScrollBarUI extends BasicScrollBarUI {
@@ -241,7 +255,7 @@ public class PanelFactory {
         @Override
         protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
             trackBounds.width = verticalScrollBarWidth;
-            g.setColor(Color.LIGHT_GRAY);
+            g.setColor(a.burgundy);
             g.fillRect(trackBounds.x + verticalTrackBoundX, trackBounds.y, trackBounds.width, trackBounds.height);
         }
 
@@ -250,7 +264,7 @@ public class PanelFactory {
             thumbBounds.width = verticalScrollBarWidth;
             Graphics2D thumbEndGraphic = (Graphics2D) g;
 
-            thumbEndGraphic.setColor(Color.DARK_GRAY);
+            thumbEndGraphic.setColor(a.burgundy);
             thumbEndGraphic.fillRect(thumbBounds.x + verticalTrackBoundX, thumbBounds.y + 4, thumbBounds.width, thumbBounds.height - 8);
 
             thumbEndGraphic.dispose();
