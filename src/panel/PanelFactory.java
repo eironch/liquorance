@@ -1,7 +1,7 @@
 package panel;
 
-import asset.AssetFactory;
 import main.Main;
+import asset.AssetFactory;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
@@ -25,12 +25,11 @@ public class PanelFactory {
     public ArrayList<JLayeredPane> liquorLayeredPaneList = new ArrayList<>();
     public ArrayList<Container> liquorButtonContainerList = new ArrayList<>();
     public ArrayList<Container> liquorImageTextContainerList = new ArrayList<>();
-    public ArrayList<Container> categoryContainerList = new ArrayList<>();
-    public Container catalogSectionContainer = new Container();
+    public Container menuSectionContainer = new Container();
 
     // ------------ liquor view -------------
 
-    public JLayeredPane layeredPane = new JLayeredPane();
+    public JLayeredPane liquorLayeredPane = new JLayeredPane();
     public Container liquorNameContainer = new Container();
     public Container liquorImageContainer = new Container();
     public Container liquorInfoSectionContainer = new Container();
@@ -102,8 +101,8 @@ public class PanelFactory {
             menuRowContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         }
 
-        catalogSectionContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-        catalogSectionContainer.setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT - 80));
+        menuSectionContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        menuSectionContainer.setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT - 80));
 
         footerPanel.setLayout(new GridLayout(1, 4, 0, 0));
         footerPanel.setBackground(a.burgundy);
@@ -117,7 +116,7 @@ public class PanelFactory {
         headerContainerList.add(new Container());
         headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
-        layeredPane.setLayout(null);
+        liquorLayeredPane.setLayout(null);
 
         liquorNameContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 40));
         liquorNameContainer.setSize(Main.WIDTH, Main.HEIGHT - 160);
@@ -184,7 +183,7 @@ public class PanelFactory {
         orderScrollPane.setSize(Main.WIDTH, Main.HEIGHT - 160);
         orderScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         orderScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        orderScrollPane.getVerticalScrollBar().setUnitIncrement(7);
+        orderScrollPane.getVerticalScrollBar().setUnitIncrement(5);
         orderScrollPane.getVerticalScrollBar().setBackground(a.burgundy);
         orderScrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         orderScrollPane.getVerticalScrollBar().setBorder(null);
@@ -193,7 +192,7 @@ public class PanelFactory {
         orderScrollPane.setBorder(null);
         verticalScrollBar = orderScrollPane.getVerticalScrollBar();
 
-        orderPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        orderPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
         orderPanel.setPreferredSize(new Dimension(Main.WIDTH, 0));
         orderPanel.setBackground(a.burgundy);
 
@@ -204,7 +203,7 @@ public class PanelFactory {
         orderTotalContainerList.get(0).setLayout(new FlowLayout(FlowLayout.LEADING, 15, 10));
 
         orderTotalContainerList.add(new Container());
-        orderTotalContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        orderTotalContainerList.get(1).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
 
         orderTotalContainerList.add(new Container());
         orderTotalContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 15, 10));
@@ -234,8 +233,8 @@ public class PanelFactory {
     }
 
     static class CustomScrollBarUI extends BasicScrollBarUI {
-        int verticalScrollBarWidth = 12;
-        int verticalTrackBoundX = 2;
+        int verticalScrollBarWidth = 6;
+        int verticalTrackBoundX = 4;
         @Override
         protected JButton createDecreaseButton(int orientation) {
             return createArrowButton();
@@ -264,7 +263,7 @@ public class PanelFactory {
             thumbBounds.width = verticalScrollBarWidth;
             Graphics2D thumbEndGraphic = (Graphics2D) g;
 
-            thumbEndGraphic.setColor(a.burgundy);
+            thumbEndGraphic.setColor(a.cocoa);
             thumbEndGraphic.fillRect(thumbBounds.x + verticalTrackBoundX, thumbBounds.y + 4, thumbBounds.width, thumbBounds.height - 8);
 
             thumbEndGraphic.dispose();
