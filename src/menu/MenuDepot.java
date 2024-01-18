@@ -1,7 +1,6 @@
 package menu;
 
 import asset.AssetFactory;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
