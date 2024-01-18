@@ -1,23 +1,17 @@
 package view;
 
-import asset.AssetFactory;
-import component.ComponentFactory;
-import database.DatabaseManager;
 import main.Main;
+import component.ComponentFactory;
 import panel.PanelFactory;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class TitleView {
     JFrame f;
-    DatabaseManager d = new DatabaseManager();
     PanelFactory p = new PanelFactory();
     ComponentFactory c = new ComponentFactory();
-    AssetFactory a = new AssetFactory();
     public JPanel contentPanel = new JPanel();
 
     public TitleView(JFrame frame) {
