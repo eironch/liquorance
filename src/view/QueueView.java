@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -32,7 +31,7 @@ public class QueueView {
 
         contentPanel.setLayout(new BorderLayout(0, 0));
 
-        p.headerContainerList.get(1).add(c.titleText);
+        p.headerContainerList.get(1).add(c.logoText);
 
         for (int i = 0; i < p.headerContainerList.size(); i++) {
             p.headerPanel.add(p.headerContainerList.get(i));
