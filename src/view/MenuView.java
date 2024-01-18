@@ -1,9 +1,8 @@
 package view;
 
-import database.DatabaseManager;
+import main.Main;
 import asset.AssetFactory;
 import component.ComponentFactory;
-import main.Main;
 import menu.MenuDepot;
 import panel.PanelFactory;
 import javax.swing.*;
@@ -21,7 +20,6 @@ public class MenuView {
     public JPanel contentPanel = new JPanel();
     LinkedList<LinkedList<Object>> liquorMenuList = new LinkedList<>();
     LinkedList<LinkedList<Object>> orderList = new LinkedList<>();
-
 
     public MenuView(JFrame frame) {
         this.f = frame;
@@ -48,7 +46,7 @@ public class MenuView {
             c.liquorImageList.get(i).setIcon(
                     a.cropTopImageIcon(
                     a.resizeIcon(
-                    (ImageIcon) m.cocktailMenuInfoList.get(i).get(5), 250, 250
+                    (ImageIcon) m.cocktailMenuInfoList.get(i).get(5), 230, 230
                     ), 220));
             c.liquorImageList.get(i).addMouseListener(createMenuMouseListener(liquorMenuList, orderList, a));
 
@@ -68,22 +66,17 @@ public class MenuView {
         p.menuRowContainerList.get(1).add(p.liquorLayeredPaneList.get(6));
         p.menuRowContainerList.get(1).add(p.liquorLayeredPaneList.get(7));
 
-        p.catalogSectionContainer.add(p.menuRowContainerList.get(0));
-        p.catalogSectionContainer.add(p.menuRowContainerList.get(1));
+        p.menuSectionContainer.add(p.menuRowContainerList.get(0));
+        p.menuSectionContainer.add(p.menuRowContainerList.get(1));
 
         p.quantitySelectorContainer.add(c.decreaseQuantityButton);
         p.quantitySelectorContainer.add(c.orderQuantityText);
         p.quantitySelectorContainer.add(c.increaseQuantityButton);
 
-        p.bodyPanel.add(p.catalogSectionContainer);
-
-        for (int i = 0; i < p.categoryContainerList.size(); i++) {
-            p.footerPanel.add(p.categoryContainerList.get(i));
-        }
+        p.bodyPanel.add(p.menuSectionContainer);
 
         contentPanel.add(p.headerPanel, BorderLayout.NORTH);
         contentPanel.add(p.bodyPanel, BorderLayout.CENTER);
-        contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
     private void handleMenuViewButton() {
@@ -155,7 +148,8 @@ public class MenuView {
         orderList.clear();
     }
 
-    private static MouseListener createUIMouseListener(LinkedList<LinkedList<Object>> orderList, ComponentFactory c, AssetFactory a) {
+    private static MouseListener createUIMouseListener(
+            LinkedList<LinkedList<Object>> orderList, ComponentFactory c, AssetFactory a) {
         return new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -209,8 +203,10 @@ public class MenuView {
         };
     }
 
-    private static MouseListener createMenuMouseListener(LinkedList<LinkedList<Object>> liquorMenuList, LinkedList<LinkedList<Object>> orderList, AssetFactory a) {
-
+    private static MouseListener createMenuMouseListener(
+            LinkedList<LinkedList<Object>> liquorMenuList,
+            LinkedList<LinkedList<Object>> orderList,
+            AssetFactory a) {
         return new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
