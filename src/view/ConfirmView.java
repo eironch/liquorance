@@ -9,6 +9,8 @@ import panel.PanelFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -20,9 +22,9 @@ public class ConfirmView {
     AssetFactory a = new AssetFactory();
     MenuDepot m = new MenuDepot();
     int orderContainerSize = 0;
-    int orderTotal = 0;
+    static int orderTotal = 0;
     public JPanel contentPanel = new JPanel();
-    LinkedList<LinkedList<Object>> orderInfoList = new LinkedList<>();
+    static LinkedList<LinkedList<Object>> orderInfoList = new LinkedList<>();
 
     public ConfirmView(JFrame frame) {
         this.f = frame;
@@ -32,23 +34,25 @@ public class ConfirmView {
 
         contentPanel.setLayout(new BorderLayout(0, 0));
 
-        c.returnButton.addActionListener(this::returnToMenuView);
+        c.returnButton.addMouseListener(createUIMouseListener(c, a));
 
         p.headerContainerList.get(0).add(c.returnButton);
-        p.headerContainerList.get(1).add(c.titleText);
+        p.headerContainerList.get(1).add(c.logoText);
+        p.headerContainerList.get(2).add(c.confirmOrderButton);
 
         for (int i = 0; i < p.headerContainerList.size(); i++) {
             p.headerPanel.add(p.headerContainerList.get(i));
         }
 
-        c.confirmOrderButton.addActionListener(this::finishOrder);
+        c.confirmOrderButton.addMouseListener(createUIMouseListener(c, a));
 
-        p.orderTotalContainer.add(c.orderTotalText);
+        p.orderTotalContainerList.get(0).add(c.orderTotalContext);
+//        p.orderTotalContainerList.get(1).add();
+        p.orderTotalContainerList.get(2).add(c.orderTotalText);
 
-        p.confirmOrderContainer.add(c.confirmOrderButton);
-
-        p.footerPanel.add(p.orderTotalContainer);
-        p.footerPanel.add(p.confirmOrderContainer);
+        for (int i = 0; i < p.orderTotalContainerList.size(); i++) {
+            p.footerPanel.add(p.orderTotalContainerList.get(i));
+        }
 
         contentPanel.add(p.headerPanel, BorderLayout.NORTH);
         contentPanel.add(p.orderScrollPane, BorderLayout.CENTER);
@@ -56,9 +60,11 @@ public class ConfirmView {
     }
 
     public void showOrder(LinkedList<LinkedList<Object>> orderList) {
-        int orderQuantity = 0;
-        int menuID = 0;
+        int orderQuantity;
+        int menuID;
+
         orderContainerSize = 0;
+
         orderInfoList.clear();
         p.orderPanel.removeAll();
 
@@ -71,12 +77,10 @@ public class ConfirmView {
                     continue;
                 }
 
-                int finalOrderQuantity = orderQuantity;
-
-                SwingUtilities.invokeLater(() ->
-                        addToShownOrder((String) liquor.get(1),
-                                finalOrderQuantity, (int) liquor.getLast(),
-                        (ImageIcon) liquor.get(6), (Integer) liquor.getFirst())
+                addToShownOrder(
+                        (String) liquor.get(1), orderQuantity,
+                        (int) liquor.getLast(), (ImageIcon) liquor.get(6),
+                        (Integer) liquor.getFirst()
                 );
 
                 break;
@@ -135,34 +139,37 @@ public class ConfirmView {
 
         liquorOrderName.setText(liquorName);
         liquorOrderName.setFont(a.lora.deriveFont(Font.BOLD, 25f));
+        liquorOrderName.setForeground(a.cocoa);
 
         liquorPriceText.setText("PHP " + String.format("%,d", price));
         liquorPriceText.setFont(a.lora.deriveFont(Font.BOLD, 20f));
         liquorPriceText.setPreferredSize(new Dimension(120, 80));
         liquorPriceText.setHorizontalAlignment(JLabel.RIGHT);
         liquorPriceText.setVerticalAlignment(JLabel.CENTER);
+        liquorPriceText.setForeground(a.cocoa);
 
-        decreaseQuantityButton.setText("-");
+        decreaseQuantityButton.setIcon(a.resizeIcon(a.decreaseButtonIcon, 60, 60));
         decreaseQuantityButton.setPreferredSize(new Dimension(60, 60));
         decreaseQuantityButton.setFocusable(false);
-        decreaseQuantityButton.addActionListener(this::decreaseQuantity);
+        decreaseQuantityButton.addMouseListener(createQuantityMouseListener(c, a));
 
         orderQuantityText.setText(String.valueOf(orderQuantity));
         orderQuantityText.setPreferredSize(new Dimension(100, 60));
         orderQuantityText.setHorizontalAlignment(JLabel.CENTER);
-        orderQuantityText.setFont(c.toHelvetica(20));
-        orderQuantityText.setForeground(Color.BLACK);
+        orderQuantityText.setFont(a.lora.deriveFont(Font.BOLD, 30f));
+        orderQuantityText.setForeground(a.cocoa);
 
-        increaseQuantityButton.setText("+");
+        increaseQuantityButton.setIcon(a.resizeIcon(a.increaseButtonIcon, 60, 60));
         increaseQuantityButton.setPreferredSize(new Dimension(60, 60));
         increaseQuantityButton.setFocusable(false);
-        increaseQuantityButton.addActionListener(this::increaseQuantity);
+        increaseQuantityButton.addMouseListener(createQuantityMouseListener(c, a));
 
         liquorTotalText.setText("PHP " + String.format("%,d", price * orderQuantity) + ".00");
         liquorTotalText.setFont(a.lora.deriveFont(Font.BOLD,20f));
         liquorTotalText.setPreferredSize(new Dimension(150, 80));
         liquorTotalText.setHorizontalAlignment(JLabel.CENTER);
         liquorTotalText.setVerticalAlignment(JLabel.CENTER);
+        liquorTotalText.setForeground(a.cocoa);
 
         removeOrderContainer.add(removeOrderButton);
 
@@ -228,100 +235,21 @@ public class ConfirmView {
         }
     }
 
-    private void decreaseQuantity(ActionEvent e) {
-        for (LinkedList<Object> order : orderInfoList) {
-            if (!order.contains(e.getSource())) {
-                continue;
-            }
-
-            int orderQuantity = (int) order.getLast();
-
-            if (orderQuantity == 1) {
-                return;
-            } else if (--orderQuantity == 1) {
-                JButton button = (JButton) order.get(3);
-                button.setEnabled(false);
-            }
-
-            JButton button = (JButton) order.get(5);
-
-            if (!button.isEnabled()) {
-                button.setEnabled(true);
-            }
-
-            order.set(10, orderQuantity);
-
-            JLabel orderQuantityText = (JLabel) order.get(4);
-            orderQuantityText.setText(String.valueOf(order.getLast()));
-
-            JLabel liquorTotalText = (JLabel) order.get(8);
-
-            liquorTotalText.setText("PHP " + String.format("%,d", (int) order.get(6) * orderQuantity) + ".00");
-            order.set(7, ((int) order.get(6) * orderQuantity));
-
-            showOrderTotal();
-
-            repaint(orderQuantityText);
-        }
-    }
-
-    private void increaseQuantity(ActionEvent e) {
-        for (LinkedList<Object> order : orderInfoList) {
-            if (!order.contains(e.getSource())) {
-                continue;
-            }
-
-            int orderQuantity = (int) order.getLast();
-
-            if (orderQuantity == 99) {
-                return;
-            } else if (++orderQuantity == 99) {
-                JButton button = (JButton) order.get(5);
-                button.setEnabled(false);
-            }
-
-            JButton button = (JButton) order.get(3);
-
-            if (!button.isEnabled()) {
-                button.setEnabled(true);
-            }
-
-            order.set(10, orderQuantity);
-
-            JLabel orderQuantityText = (JLabel) order.get(4);
-
-            orderQuantityText.setText(String.valueOf(order.getLast()));
-
-            JLabel liquorTotalText = (JLabel) order.get(8);
-
-            liquorTotalText.setText("PHP " + String.format("%,d", (int) order.get(6) * orderQuantity) + ".00");
-            order.set(7, ((int) order.get(6) * orderQuantity));
-
-            showOrderTotal();
-
-            repaint(orderQuantityText);
-        }
-    }
-
     private void showOrderTotal() {
+        orderTotal = 0;
+
         for (LinkedList<Object> order : orderInfoList) {
             orderTotal += (int) order.get(7);
         }
 
-        c.orderTotalText.setText("Order Total: PHP " + String.format("%,d", orderTotal) + ".00");
-
-        repaint(c.orderTotalText);
+        c.orderTotalText.setText("<html><div style='text-align: right;'>" +
+                "PHP " + String.format("%,d", orderTotal) + ".00" +
+                "</div></html>"
+        );
     }
 
-    private void finishOrder(ActionEvent e) {
-        Main.showQueueView(orderInfoList, orderTotal);
-    }
     public void clearLists() {
         orderInfoList.clear();
-    }
-
-    private void returnToMenuView(ActionEvent e) {
-        Main.showMenuView(orderInfoList);
     }
 
     private void repaint(Component component){
@@ -329,5 +257,185 @@ public class ConfirmView {
             component.revalidate();
             component.repaint();
         });
+    }
+
+    private static MouseListener createQuantityMouseListener(ComponentFactory c, AssetFactory a) {
+        return new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JLabel button = (JLabel) e.getSource();
+
+                if (button == c.decreaseQuantityButton) {
+                    decreaseQuantity(button);
+                } else if (button == c.increaseQuantityButton) {
+                    increaseQuantity(button);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                JLabel button = (JLabel) e.getSource();
+
+                if (button == c.decreaseQuantityButton) {
+                    button.setIcon(a.resizeIcon(a.decreaseSelectedButtonIcon, 60, 60));
+                } else if (button == c.increaseQuantityButton) {
+                    button.setIcon(a.resizeIcon(a.increaseSelectedButtonIcon, 60, 60));
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                JLabel button = (JLabel) e.getSource();
+
+                if (button == c.decreaseQuantityButton) {
+                    button.setIcon(a.resizeIcon(a.decreaseButtonIcon, 60, 60));
+                } else if (button == c.increaseQuantityButton) {
+                    button.setIcon(a.resizeIcon(a.increaseButtonIcon, 60, 60));
+                }
+            }
+
+            private void decreaseQuantity(JLabel buttonPressed) {
+                for (LinkedList<Object> order : orderInfoList) {
+                    if (!order.contains(buttonPressed)) {
+                        continue;
+                    }
+
+                    int orderQuantity = (int) order.getLast();
+
+                    if (orderQuantity == 1) {
+                        return;
+                    } else if (--orderQuantity == 1) {
+                        JButton button = (JButton) order.get(3);
+                        button.setEnabled(false);
+                    }
+
+                    JButton button = (JButton) order.get(5);
+
+                    if (!button.isEnabled()) {
+                        button.setEnabled(true);
+                    }
+
+                    order.set(10, orderQuantity);
+
+                    JLabel orderQuantityText = (JLabel) order.get(4);
+                    orderQuantityText.setText(String.valueOf(order.getLast()));
+
+                    JLabel liquorTotalText = (JLabel) order.get(8);
+
+                    liquorTotalText.setText("PHP " + String.format("%,d", (int) order.get(6) * orderQuantity) + ".00");
+                    order.set(7, ((int) order.get(6) * orderQuantity));
+
+                    showOrderTotal();
+                }
+            }
+
+            private void increaseQuantity(JLabel buttonPressed) {
+                for (LinkedList<Object> order : orderInfoList) {
+                    if (!order.contains(buttonPressed)) {
+                        continue;
+                    }
+
+                    int orderQuantity = (int) order.getLast();
+
+                    if (orderQuantity == 99) {
+                        return;
+                    } else if (++orderQuantity == 99) {
+                        JButton button = (JButton) order.get(5);
+                        button.setEnabled(false);
+                    }
+
+                    JButton button = (JButton) order.get(3);
+
+                    if (!button.isEnabled()) {
+                        button.setEnabled(true);
+                    }
+
+                    order.set(10, orderQuantity);
+
+                    JLabel orderQuantityText = (JLabel) order.get(4);
+
+                    orderQuantityText.setText(String.valueOf(order.getLast()));
+
+                    JLabel liquorTotalText = (JLabel) order.get(8);
+
+                    liquorTotalText.setText("PHP " + String.format("%,d", (int) order.get(6) * orderQuantity) + ".00");
+                    order.set(7, ((int) order.get(6) * orderQuantity));
+
+                    showOrderTotal();
+                }
+            }
+
+            private void showOrderTotal() {
+                orderTotal = 0;
+
+                for (LinkedList<Object> order : orderInfoList) {
+                    orderTotal += (int) order.get(7);
+                }
+
+                c.orderTotalText.setText("<html><div style='text-align: right;'>" +
+                        "PHP " + String.format("%,d", orderTotal) + ".00" +
+                        "</div></html>"
+                );
+            }
+        };
+    }
+
+    private static MouseListener createUIMouseListener(ComponentFactory c, AssetFactory a) {
+        return new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JLabel button = (JLabel) e.getSource();
+
+                if (button == c.returnButton) {
+                    Main.showMenuView(orderInfoList);
+                } else if (button == c.confirmOrderButton) {
+                    Main.showQueueView(orderInfoList, orderTotal);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                JLabel button = (JLabel) e.getSource();
+
+                highlightButton(button, a.burgundy, a.uiButtonSelectedIconList);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                JLabel button = (JLabel) e.getSource();
+
+                highlightButton(button, a.cocoa, a.uiButtonIconList);
+            }
+
+            public void highlightButton(JLabel button, Color color, LinkedList<ImageIcon> iconList) {
+                if (button == c.returnButton) {
+                    button.setIcon(a.resizeIcon(iconList.get(0), 200, 60));
+                    button.setForeground(color);
+                } else if (button == c.confirmOrderButton) {
+                    button.setIcon(a.resizeIcon(iconList.get(1), 200, 60));
+                    button.setForeground(color);
+                }
+            }
+        };
     }
 }
