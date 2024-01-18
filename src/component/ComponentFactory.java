@@ -9,17 +9,21 @@ import java.util.ArrayList;
 
 public class ComponentFactory {
     AssetFactory a = new AssetFactory();
-    public JLabel titleText = new JLabel();
+    public JLabel logoText = new JLabel();
+
+    // ------------ title view --------------
+
+    public JLabel logoImage = new JLabel();
+    public JLabel touchImage = new JLabel();
 
     // ------------- menu view --------------
 
-    public JButton changeViewButton = new JButton();
-    public JButton orderButton = new JButton();
-    public ArrayList<JButton> liquorMenuButtonList = new ArrayList<>();
-    public ArrayList<JLabel> liquorMenuNameList = new ArrayList<>();
-    public ArrayList<JButton> categoryButtonList = new ArrayList<>();
+    public JLabel orderButton = new JLabel();
+    public ArrayList<JLabel> liquorImageList = new ArrayList<>();
+    public ArrayList<JLabel> liquorNameList = new ArrayList<>();
+    public ArrayList<JLabel> liquorIndicatorList = new ArrayList<>();
 
-    // ---------- quantity view -------------
+    // ------------ liquor view -------------
 
     public JLabel liquorBackgroundName = new JLabel();
     public JLabel liquorImage = new JLabel();
@@ -29,165 +33,201 @@ public class ComponentFactory {
     public JLabel liquorCategoryText = new JLabel();
     public JLabel liquorDescriptionText = new JLabel();
     public JLabel liquorIngredientsText = new JLabel();
+    public JLabel decreaseQuantityButton = new JLabel();
+    public JLabel orderQuantityText = new JLabel();
+    public JLabel increaseQuantityButton = new JLabel();
+    public JLabel cancelButton = new JLabel();
+    public JLabel confirmButton = new JLabel();
 
     // ----------- confirm view -------------
 
-    public JButton returnButton = new JButton();
-    public JButton confirmOrderButton = new JButton();
+    public JLabel returnButton = new JLabel();
+    public JLabel confirmOrderButton = new JLabel();
+    public JLabel orderTotalContext = new JLabel();
     public JLabel orderTotalText = new JLabel();
+
 
     // ------------ queue view --------------
 
     public JLabel orderNumberContext = new JLabel();
     public JLabel orderNumberText = new JLabel();
-    public JLabel orderTotalContext = new JLabel();
-
-    // ------------ title view --------------
-
-    public JLabel taglineText = new JLabel();
-    public JButton openCatalogButton = new JButton();
-
-    // ---------- quantity prompt -----------
-
-    public JButton decreaseQuantityButton = new JButton();
-    public JLabel orderQuantityText = new JLabel();
-    public JButton increaseQuantityButton = new JButton();
-    public JButton cancelButton = new JButton();
-    public JButton confirmButton = new JButton();
-
-    // ---------- removal prompt ------------
-
-    public JLabel removalContext = new JLabel();
 
     public ComponentFactory() {
-        titleText.setText("Liquorance");
-        titleText.setFont(a.metanoia.deriveFont(55f));
-        titleText.setForeground(Color.WHITE);
+        logoText.setText("Liquorance");
+        logoText.setFont(a.metanoia.deriveFont(55f));
+        logoText.setForeground(a.cocoa);
     }
 
     public void handleTitleView() {
-        titleText.setFont(a.metanoia.deriveFont(150f));
-        titleText.setPreferredSize(new Dimension(Main.WIDTH, 180));
-        titleText.setHorizontalAlignment(JLabel.CENTER);
+        logoImage.setText("");
+        logoImage.setIcon(a.resizeIcon(a.logoIcon, 800, 800));
+        logoImage.setPreferredSize(new Dimension(Main.WIDTH, 200));
+        logoImage.setHorizontalAlignment(JLabel.CENTER);
 
-        taglineText.setText("Have your night.");
-        taglineText.setFont(a.lora.deriveFont(40f));
-        taglineText.setForeground(Color.WHITE);
-
-        openCatalogButton.setText("See Catalog");
-        openCatalogButton.setPreferredSize(new Dimension(200, 60));
-        openCatalogButton.setFocusable(false);
+        touchImage.setIcon(a.resizeIcon(a.touchIcon, 70, 70));
     }
 
     public void handleMenuView() {
-        changeViewButton.setText("View");
-        changeViewButton.setPreferredSize(new Dimension(100,60));
-        changeViewButton.setFocusable(false);
+        returnButton.setText("Exit");
+        returnButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(0), 200, 60));
+        returnButton.setPreferredSize(new Dimension(200,60));
+        returnButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
+        returnButton.setHorizontalTextPosition(JLabel.CENTER);
+        returnButton.setVerticalTextPosition(JLabel.CENTER);
+        returnButton.setBackground(a.burgundy);
+        returnButton.setForeground(a.cocoa);
 
         orderButton.setText("Order");
+        orderButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(1), 200, 60));
         orderButton.setPreferredSize(new Dimension(200,60));
-        orderButton.setFocusable(false);
+        orderButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
+        orderButton.setHorizontalTextPosition(JLabel.CENTER);
+        orderButton.setVerticalTextPosition(JLabel.CENTER);
+        orderButton.setBackground(a.burgundy);
+        orderButton.setForeground(a.cocoa);
 
         for (int i = 0; i < 8; i++) {
-            liquorMenuButtonList.add(new JButton());
-            liquorMenuButtonList.get(i).setPreferredSize(new Dimension(260, 260));
-            liquorMenuButtonList.get(i).setBackground(Color.LIGHT_GRAY);
-            liquorMenuButtonList.get(i).setFocusable(false);
-            liquorMenuButtonList.get(i).setBorder(null);
+            liquorIndicatorList.add(new JLabel());
+            liquorIndicatorList.get(i).setIcon(a.resizeIcon(a.menuButtonIcon, 280, 280));
         }
 
         for (int i = 0; i < 8; i++) {
-            liquorMenuNameList.add(new JLabel());
-            liquorMenuNameList.get(i).setFont(toHelvetica(15));
-            liquorMenuNameList.get(i).setPreferredSize(new Dimension(320, 60));
-            liquorMenuNameList.get(i).setHorizontalAlignment(JLabel.CENTER);
+            liquorImageList.add(new JLabel());
+            liquorImageList.get(i).setFocusable(false);
+            liquorImageList.get(i).setBorder(null);
         }
 
-        for (int i = 0; i < 5; i++) {
-            categoryButtonList.add(new JButton());
-            categoryButtonList.get(i).setText("" + i);
-            categoryButtonList.get(i).setPreferredSize(new Dimension(80, 80));
-            categoryButtonList.get(i).setFocusable(false);
+        for (int i = 0; i < 8; i++) {
+            liquorNameList.add(new JLabel());
+            liquorNameList.get(i).setFont(a.lora.deriveFont(Font.BOLD, 18f));
+            liquorNameList.get(i).setPreferredSize(new Dimension(320, 60));
+            liquorNameList.get(i).setHorizontalAlignment(JLabel.CENTER);
+            liquorNameList.get(i).setForeground(a.cocoa);
         }
     }
 
     public void handleLiquorView() {
-        changeViewButton.setText("View");
-        changeViewButton.setPreferredSize(new Dimension(100,60));
-        changeViewButton.setFocusable(false);
+        returnButton.setText("Exit");
+        returnButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(0), 200, 60));
+        returnButton.setPreferredSize(new Dimension(200,60));
+        returnButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
+        returnButton.setHorizontalTextPosition(JLabel.CENTER);
+        returnButton.setVerticalTextPosition(JLabel.CENTER);
+        returnButton.setBackground(a.burgundy);
+        returnButton.setForeground(a.cocoa);
+        returnButton.setFocusable(false);
+        returnButton.setBorder(null);
 
         orderButton.setText("Order");
+        orderButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(1), 200, 60));
         orderButton.setPreferredSize(new Dimension(200,60));
+        orderButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
+        orderButton.setHorizontalTextPosition(JLabel.CENTER);
+        orderButton.setVerticalTextPosition(JLabel.CENTER);
+        orderButton.setBackground(a.burgundy);
+        orderButton.setForeground(a.cocoa);
         orderButton.setFocusable(false);
+        orderButton.setBorder(null);
 
-        liquorBackgroundName.setForeground(Color.BLACK);
+        liquorBackgroundName.setForeground(a.cocoa);
 
         liquorImage.setPreferredSize(new Dimension(300, Main.HEIGHT - 160));
         liquorImage.setBorder(BorderFactory.createEmptyBorder(-120, 0, 0, 0));
         liquorImage.setHorizontalAlignment(JLabel.CENTER);
-        liquorImage.setForeground(Color.DARK_GRAY);
+        liquorImage.setForeground(a.burgundy);
 
         liquorForegroundName.setFont(a.lora.deriveFont(Font.BOLD, 24f));
         liquorForegroundName.setHorizontalAlignment(JLabel.RIGHT);
         liquorForegroundName.setVerticalAlignment(JLabel.BOTTOM);
+        liquorForegroundName.setForeground(a.cocoa);
 
         liquorFlavorText.setFont(a.lora.deriveFont(17f));
         liquorFlavorText.setPreferredSize(new Dimension(450, 120));
         liquorFlavorText.setHorizontalAlignment(JLabel.RIGHT);
         liquorFlavorText.setVerticalAlignment(JLabel.TOP);
+        liquorFlavorText.setForeground(a.cocoa);
 
         liquorPriceText.setFont(a.lora.deriveFont(100f));
         liquorPriceText.setHorizontalAlignment(JLabel.RIGHT);
         liquorPriceText.setVerticalAlignment(JLabel.TOP);
+        liquorPriceText.setForeground(a.cocoa);
 
         liquorCategoryText.setFont(a.lora.deriveFont(Font.BOLD, 24f));
         liquorCategoryText.setHorizontalAlignment(JLabel.LEFT);
         liquorCategoryText.setVerticalAlignment(JLabel.BOTTOM);
+        liquorCategoryText.setForeground(a.cocoa);
 
         liquorDescriptionText.setFont(a.lora.deriveFont(17f));
         liquorDescriptionText.setPreferredSize(new Dimension(450, 120));
         liquorDescriptionText.setHorizontalAlignment(JLabel.LEFT);
         liquorDescriptionText.setVerticalAlignment(JLabel.TOP);
+        liquorDescriptionText.setForeground(a.cocoa);
 
         liquorIngredientsText.setFont(a.lora.deriveFont(17f));
         liquorIngredientsText.setPreferredSize(new Dimension(450, 120));
         liquorIngredientsText.setHorizontalAlignment(JLabel.LEFT);
         liquorIngredientsText.setVerticalAlignment(JLabel.TOP);
+        liquorIngredientsText.setForeground(a.cocoa);
 
         cancelButton.setText("Cancel");
-        cancelButton.setPreferredSize(new Dimension(120,60));
+        cancelButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(2), 200, 60));
+        cancelButton.setPreferredSize(new Dimension(200,60));
+        cancelButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
+        cancelButton.setHorizontalTextPosition(JLabel.CENTER);
+        cancelButton.setVerticalTextPosition(JLabel.CENTER);
+        cancelButton.setBackground(a.burgundy);
+        cancelButton.setForeground(a.cocoa);
         cancelButton.setFocusable(false);
+        cancelButton.setBorder(null);
 
-        decreaseQuantityButton.setText("-");
+        decreaseQuantityButton.setIcon(a.resizeIcon(a.decreaseButtonIcon, 60, 60));
         decreaseQuantityButton.setPreferredSize(new Dimension(60, 60));
-        decreaseQuantityButton.setFocusable(false);
 
-        orderQuantityText.setText("1");
         orderQuantityText.setPreferredSize(new Dimension(100, 60));
         orderQuantityText.setHorizontalAlignment(JLabel.CENTER);
-        orderQuantityText.setFont(toHelvetica(20));
-        orderQuantityText.setForeground(Color.WHITE);
+        orderQuantityText.setFont(a.lora.deriveFont(Font.BOLD, 30f));
+        orderQuantityText.setForeground(a.cocoa);
 
-        increaseQuantityButton.setText("+");
+        increaseQuantityButton.setIcon(a.resizeIcon(a.increaseButtonIcon, 60, 60));
         increaseQuantityButton.setPreferredSize(new Dimension(60, 60));
-        increaseQuantityButton.setFocusable(false);
 
         confirmButton.setText("Confirm");
-        confirmButton.setPreferredSize(new Dimension(120,60));
+        confirmButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(3), 200, 60));
+        confirmButton.setPreferredSize(new Dimension(200,60));
+        confirmButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
+        confirmButton.setHorizontalTextPosition(JLabel.CENTER);
+        confirmButton.setVerticalTextPosition(JLabel.CENTER);
+        confirmButton.setBackground(a.burgundy);
+        confirmButton.setForeground(a.cocoa);
         confirmButton.setFocusable(false);
+        confirmButton.setBorder(null);
     }
 
     public void handleConfirmView() {
         returnButton.setText("Return");
-        returnButton.setPreferredSize(new Dimension(100, 60));
-        returnButton.setFocusable(false);
+        returnButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(0), 200, 60));
+        returnButton.setPreferredSize(new Dimension(200,60));
+        returnButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
+        returnButton.setHorizontalTextPosition(JLabel.CENTER);
+        returnButton.setVerticalTextPosition(JLabel.CENTER);
+        returnButton.setBackground(a.burgundy);
+        returnButton.setForeground(a.cocoa);
 
-        orderTotalText.setFont(toHelvetica(40));
-        orderTotalText.setForeground(Color.WHITE);
+        orderTotalContext.setText("Order Total:");
+        orderTotalContext.setFont(a.lora.deriveFont(40f));
+        orderTotalContext.setForeground(a.cocoa);
+
+        orderTotalText.setFont(a.lora.deriveFont(Font.BOLD, 40f));
+        orderTotalText.setForeground(a.cocoa);
 
         confirmOrderButton.setText("Confirm Order");
-        confirmOrderButton.setPreferredSize(new Dimension(180, 60));
-        confirmOrderButton.setFocusable(false);
+        confirmOrderButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(1), 200, 60));
+        confirmOrderButton.setPreferredSize(new Dimension(200,60));
+        confirmOrderButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
+        confirmOrderButton.setHorizontalTextPosition(JLabel.CENTER);
+        confirmOrderButton.setVerticalTextPosition(JLabel.CENTER);
+        confirmOrderButton.setBackground(a.burgundy);
+        confirmOrderButton.setForeground(a.cocoa);
     }
 
     public void handleQueueView() {
@@ -196,21 +236,21 @@ public class ComponentFactory {
         orderNumberContext.setHorizontalAlignment(JLabel.CENTER);
         orderNumberContext.setVerticalAlignment(JLabel.CENTER);
         orderNumberContext.setFont(a.lora.deriveFont(50f));
-        orderNumberContext.setForeground(Color.BLACK);
+        orderNumberContext.setForeground(a.cocoa);
 
         orderNumberText.setFont(a.lora.deriveFont(Font.BOLD, 250f));
         orderNumberText.setBorder(BorderFactory.createEmptyBorder(-55, 0, 0, 0));
-        orderNumberText.setForeground(Color.BLACK);
+        orderNumberText.setForeground(a.cocoa);
 
         orderTotalContext.setText("Please prepare your payment of");
         orderTotalContext.setPreferredSize(new Dimension(Main.WIDTH, 70));
         orderTotalContext.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0));
         orderTotalContext.setHorizontalAlignment(JLabel.CENTER);
         orderTotalContext.setFont(a.lora.deriveFont(32f));
-        orderTotalContext.setForeground(Color.BLACK);
+        orderTotalContext.setForeground(a.cocoa);
 
         orderTotalText.setFont(a.lora.deriveFont(Font.BOLD, 37f));
-        orderTotalText.setForeground(Color.BLACK);
+        orderTotalText.setForeground(a.cocoa);
     }
 
     public Font toHelvetica(int size){
