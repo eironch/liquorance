@@ -27,6 +27,7 @@ public class Main {
     static QueueView queueView;
     static TitleView titleView;
     static JFrame frame = new JFrame();
+    static JPanel views = new JPanel();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -36,10 +37,18 @@ public class Main {
             queueView = new QueueView(frame);
             titleView = new TitleView(frame);
 
+            views.setLayout(new CardLayout());
+            views.add(titleView.contentPanel, "title");
+            views.add(menuView.contentPanel, "menu");
+            views.add(confirmView.contentPanel, "confirm");
+            views.add(liquorView.contentPanel, "liquor");
+            views.add(queueView.contentPanel, "queue");
+
 //            showMenuView();
 //            showConfirmView();
             showTitleView();
 
+            frame.add(views);
             frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -50,50 +59,45 @@ public class Main {
     }
 
     public static void showTitleView() {
-        frame.getContentPane().removeAll();
-        frame.add(titleView.contentPanel);
-//        titleView.showOrderNumber();
-        repaint(frame.getContentPane());
+        CardLayout cardLayout = (CardLayout) views.getLayout();
+        cardLayout.show(views, "title");
     }
 
     public static void showMenuView() {
-        frame.getContentPane().removeAll();
-        frame.add(menuView.contentPanel);
-        repaint(frame.getContentPane());
+        CardLayout cardLayout = (CardLayout) views.getLayout();
+        cardLayout.show(views, "menu");
     }
 
     public static void showMenuView(LinkedList<LinkedList<Object>> orderInfoList) {
-        frame.getContentPane().removeAll();
-        frame.add(menuView.contentPanel);
+        CardLayout cardLayout = (CardLayout) views.getLayout();
+        cardLayout.show(views, "menu");
+
         menuView.updateOrder(orderInfoList);
-        repaint(frame);
     }
 
     public static void showLiquorView(LinkedList<LinkedList<Object>> orderList, int menuID) {
-        frame.getContentPane().removeAll();
-        frame.add(liquorView.contentPanel);
-        liquorView.showLiquor(orderList, menuID);
-        repaint(frame);
-    }
+        CardLayout cardLayout = (CardLayout) views.getLayout();
 
-    public static void showConfirmView() {
-        frame.getContentPane().removeAll();
-        frame.add(confirmView.contentPanel);
-        repaint(frame);
+        liquorView.showLiquor(orderList, menuID);
+
+        cardLayout.show(views, "liquor");
     }
 
     public static void showConfirmView(LinkedList<LinkedList<Object>> orderList) {
-        frame.getContentPane().removeAll();
-        frame.add(confirmView.contentPanel);
+        CardLayout cardLayout = (CardLayout) views.getLayout();
+
         confirmView.showOrder(orderList);
-        repaint(frame);
+
+        cardLayout.show(views, "confirm");
+
     }
 
     public static void showQueueView(LinkedList<LinkedList<Object>> orderInfoList, int orderTotal) {
-        frame.getContentPane().removeAll();
-        frame.add(queueView.contentPanel);
+        CardLayout cardLayout = (CardLayout) views.getLayout();
+
         queueView.processOrder(orderInfoList, orderTotal);
-        repaint(frame);
+
+        cardLayout.show(views, "queue");
     }
 
     public static void clearAllLists() {
