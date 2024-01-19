@@ -232,6 +232,7 @@ public class PanelFactory {
         footerPanel.setBackground(a.burgundy);
     }
 
+    // custom scroll bar
     static class CustomScrollBarUI extends BasicScrollBarUI {
         int verticalScrollBarWidth = 6;
         int verticalTrackBoundX = 4;
