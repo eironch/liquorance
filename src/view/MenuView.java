@@ -29,6 +29,7 @@ public class MenuView {
         c.handleMenuView();
 
         contentPanel.setLayout(new BorderLayout(0, 0));
+        contentPanel.setBackground(a.burgundy);
 
         c.returnButton.addMouseListener(createUIMouseListener(orderList, c, a));
         c.orderButton.addMouseListener(createUIMouseListener(orderList, c, a));
@@ -64,14 +65,14 @@ public class MenuView {
             c.liquorImageList.get(i).setIcon(
                     a.cropTopImageIcon(
                     a.resizeIcon(
-                    (ImageIcon) m.cocktailMenuInfoList.get(i).get(5), 230, 230
+                    (ImageIcon) m.menuInfoList.get(i).get(5), 230, 230
                     ), 220));
             c.liquorImageList.get(i).addMouseListener(createMenuMouseListener(liquorMenuList, orderList, a));
 
-            c.liquorNameList.get(i).setText((String) m.cocktailMenuInfoList.get(i).get(1));
+            c.liquorNameList.get(i).setText((String) m.menuInfoList.get(i).get(1));
             c.liquorNameList.get(i).addMouseListener(createMenuMouseListener(liquorMenuList, orderList, a));
 
-            liquorMenuList.get(i).set(3, m.cocktailMenuInfoList.get(i).getFirst());
+            liquorMenuList.get(i).set(3, m.menuInfoList.get(i).getFirst());
         }
 
         p.menuRowContainerList.get(0).add(p.liquorLayeredPaneList.get(0));
@@ -84,17 +85,27 @@ public class MenuView {
         p.menuRowContainerList.get(1).add(p.liquorLayeredPaneList.get(6));
         p.menuRowContainerList.get(1).add(p.liquorLayeredPaneList.get(7));
 
-        p.menuSectionContainer.add(p.menuRowContainerList.get(0));
-        p.menuSectionContainer.add(p.menuRowContainerList.get(1));
+        p.menuRowContainerList.get(2).add(p.liquorLayeredPaneList.get(8));
+        p.menuRowContainerList.get(2).add(p.liquorLayeredPaneList.get(9));
+        p.menuRowContainerList.get(2).add(p.liquorLayeredPaneList.get(10));
+        p.menuRowContainerList.get(2).add(p.liquorLayeredPaneList.get(11));
+
+        p.menuRowContainerList.get(3).add(p.liquorLayeredPaneList.get(12));
+        p.menuRowContainerList.get(3).add(p.liquorLayeredPaneList.get(13));
+        p.menuRowContainerList.get(3).add(p.liquorLayeredPaneList.get(14));
+        p.menuRowContainerList.get(3).add(p.liquorLayeredPaneList.get(15));
+
+        p.menuSectionPanel.add(p.menuRowContainerList.get(0));
+        p.menuSectionPanel.add(p.menuRowContainerList.get(1));
+        p.menuSectionPanel.add(p.menuRowContainerList.get(2));
+        p.menuSectionPanel.add(p.menuRowContainerList.get(3));
 
         p.quantitySelectorContainer.add(c.decreaseQuantityButton);
         p.quantitySelectorContainer.add(c.orderQuantityText);
         p.quantitySelectorContainer.add(c.increaseQuantityButton);
 
-        p.bodyPanel.add(p.menuSectionContainer);
-
         contentPanel.add(p.headerPanel, BorderLayout.NORTH);
-        contentPanel.add(p.bodyPanel, BorderLayout.CENTER);
+        contentPanel.add(p.menuScrollPane, BorderLayout.CENTER);
     }
 
     public void updateOrder(LinkedList<LinkedList<Object>> orderInfoList) {
