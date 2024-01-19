@@ -33,8 +33,8 @@ public class LiquorView {
         contentPanel.setLayout(new BorderLayout(0, 0));
         contentPanel.setBackground(a.burgundy);
 
-        c.orderButton.addMouseListener(createUIMouseListener(m.cocktailMenuInfoList, c, a));
-        c.returnButton.addMouseListener(createUIMouseListener(m.cocktailMenuInfoList, c, a));
+        c.orderButton.addMouseListener(createUIMouseListener(m.menuInfoList, c, a));
+        c.returnButton.addMouseListener(createUIMouseListener(m.menuInfoList, c, a));
 
         p.headerContainerList.get(0).add(c.returnButton);
         p.headerContainerList.get(1).add(c.logoText);
@@ -76,12 +76,12 @@ public class LiquorView {
         p.quantitySelectorContainer.add(c.orderQuantityText);
         p.quantitySelectorContainer.add(c.increaseQuantityButton);
 
-        c.cancelButton.addMouseListener(createUIMouseListener(m.cocktailMenuInfoList, c, a));
+        c.cancelButton.addMouseListener(createUIMouseListener(m.menuInfoList, c, a));
 
         c.decreaseQuantityButton.addMouseListener(createQuantityMouseListener(c, a));
         c.increaseQuantityButton.addMouseListener(createQuantityMouseListener(c, a));
 
-        c.confirmButton.addMouseListener(createUIMouseListener(m.cocktailMenuInfoList, c, a));
+        c.confirmButton.addMouseListener(createUIMouseListener(m.menuInfoList, c, a));
 
         p.footerColumnContainer.get(0).add(c.cancelButton);
         p.footerColumnContainer.get(1).add(p.quantitySelectorContainer);
@@ -101,7 +101,7 @@ public class LiquorView {
         LiquorView.orderList = orderList;
         LiquorView.menuID = menuID;
 
-        orderQuantity = 1;
+        orderQuantity = 200;
 
         for (LinkedList<Object> order : orderList) {
             if (!order.getFirst().equals(menuID)) {
@@ -115,13 +115,13 @@ public class LiquorView {
 
         c.orderQuantityText.setText(String.valueOf(orderQuantity));
 
-        for (LinkedList<Object> liquor : m.cocktailMenuInfoList) {
+        for (LinkedList<Object> liquor : m.menuInfoList) {
             if (!liquor.getFirst().equals(menuID)) {
                 continue;
             }
 
             c.liquorBackgroundName.setText((String) liquor.get(1));
-            c.liquorBackgroundName.setFont(a.tanGrandeur.deriveFont((Float) liquor.get(7)));
+            c.liquorBackgroundName.setFont(a.tanGrandeur.deriveFont((Float) liquor.get(8)));
 
             c.liquorImage.setIcon(a.resizeIcon(
                     (ImageIcon) liquor.get(5), 650, 650)
@@ -145,7 +145,7 @@ public class LiquorView {
                     "<font style='font-family:" +
                     a.lora.getFamily() +
                     "; font-size:24pt; font-weight:normal;'><i>" +
-                    "Cocktail" +
+                    liquor.get(7) +
                     "</i></font></html>"
             );
 
@@ -291,7 +291,6 @@ public class LiquorView {
                 JLabel button = (JLabel) e.getSource();
 
                 highlightButton(button, a.burgundy, a.uiButtonSelectedIconList);
-
 
                 // call respective method for the buttons
                 if (button == c.returnButton) {
