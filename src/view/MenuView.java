@@ -115,6 +115,8 @@ public class MenuView {
             if (orderInfoList.isEmpty()) {
                 orderList.clear();
 
+                updateOrderQuantity();
+
                 return;
             }
 
