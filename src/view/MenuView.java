@@ -168,9 +168,7 @@ public class MenuView {
     }
 
     public void updateMenuView() {
-        SwingUtilities.invokeLater(() -> {
-            p.verticalScrollBar.setValue(0);
-        });
+        SwingUtilities.invokeLater(() -> p.verticalScrollBar.setValue(0));
 
         updateOrderQuantity();
     }
