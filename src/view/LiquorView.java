@@ -134,7 +134,7 @@ public class LiquorView {
             c.liquorFlavorText.setText("<html><div style='text-align: right;'>" +
                     "<font style='font-family:" +
                     a.lora.getFamily() +
-                    "; font-size:16pt; font-weight:normal;'>" +
+                    "; font-size:17pt; font-weight:normal;'>" +
                     liquor.get(2) +
                     "</font></div></html>"
             );
