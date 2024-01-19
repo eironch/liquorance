@@ -489,6 +489,12 @@ public class ConfirmView {
                 if (button == c.returnButton) {
                     Main.showMenuView(orderInfoList);
                 } else if (button == c.confirmOrderButton) {
+                    if (orderTotal == 0) {
+                        Main.showMenuView(orderInfoList);
+
+                        return;
+                    }
+
                     Main.showQueueView(orderInfoList, orderTotal);
                 }
             }
