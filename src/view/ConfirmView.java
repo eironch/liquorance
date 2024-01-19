@@ -452,9 +452,12 @@ public class ConfirmView {
                     orderTotal += (int) order.get(7);
                 }
 
-                c.orderTotalText.setText("<html><div style='text-align: right;'>" +
+                c.orderTotalText.setText("<html><div style='text-align: left;'>" +
+                        "<font style='font-family:" +
+                        a.lora.getFamily() +
+                        "; font-size:40pt; font-weight:normal;'><b>" +
                         "PHP " + String.format("%,d", orderTotal) + ".00" +
-                        "</div></html>"
+                        "<b></font></div></html>"
                 );
             }
 
