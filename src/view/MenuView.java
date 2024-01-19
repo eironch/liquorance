@@ -167,6 +167,14 @@ public class MenuView {
         repaint(c.orderButton);
     }
 
+    public void updateMenuView() {
+        SwingUtilities.invokeLater(() -> {
+            p.verticalScrollBar.setValue(0);
+        });
+
+        updateOrderQuantity();
+    }
+
     public void clearLists() {
         orderList.clear();
     }
