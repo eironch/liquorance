@@ -126,6 +126,7 @@ public class AssetFactory {
         return new Color(hexCode);
     }
 
+    // crops image from the bottom
     public ImageIcon cropTopImageIcon(ImageIcon originalIcon, int heightToCrop) {
         BufferedImage bufferedImage = new BufferedImage(originalIcon.getIconWidth(), originalIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         bufferedImage.getGraphics().drawImage(originalIcon.getImage(), 0, 0, null);
