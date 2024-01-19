@@ -101,7 +101,7 @@ public class LiquorView {
         LiquorView.orderList = orderList;
         LiquorView.menuID = menuID;
 
-        orderQuantity = 200;
+        orderQuantity = 1;
 
         for (LinkedList<Object> order : orderList) {
             if (!order.getFirst().equals(menuID)) {
