@@ -48,6 +48,7 @@ public class QueueView {
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
+    // completes the order
     public void processOrder(LinkedList<LinkedList<Object>> orderInfoList, int orderTotal) {
         int orderID;
 
@@ -70,7 +71,6 @@ public class QueueView {
                 throw new RuntimeException(e);
             }
         }
-
 
         c.orderNumberText.setText(String.valueOf(orderID));
 
