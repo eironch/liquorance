@@ -25,10 +25,12 @@ public class PanelFactory {
     public ArrayList<JLayeredPane> liquorLayeredPaneList = new ArrayList<>();
     public ArrayList<Container> liquorButtonContainerList = new ArrayList<>();
     public ArrayList<Container> liquorImageTextContainerList = new ArrayList<>();
-    public Container menuSectionContainer = new Container();
+    public JPanel menuSectionPanel = new JPanel();
 
     // ------------ liquor view -------------
 
+    public JScrollPane menuScrollPane;
+    public JScrollBar verticalScrollBar;
     public JLayeredPane liquorLayeredPane = new JLayeredPane();
     public Container liquorNameContainer = new Container();
     public Container liquorImageContainer = new Container();
@@ -43,7 +45,6 @@ public class PanelFactory {
     // ----------- confirm view -------------
 
     public JScrollPane orderScrollPane;
-    public JScrollBar verticalScrollBar;
     public JPanel orderPanel = new JPanel();
     public LinkedList<Container> orderTotalContainerList = new LinkedList<>();
 
@@ -75,34 +76,45 @@ public class PanelFactory {
         headerContainerList.add(new Container());
         headerContainerList.get(2).setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
-        bodyPanel.setLayout(new GridLayout(1, 1, 0, 0));
-        bodyPanel.setBackground(a.burgundy);
-
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 16; i++) {
             liquorLayeredPaneList.add(new JLayeredPane());
             liquorLayeredPaneList.get(i).setLayout(null);
             liquorLayeredPaneList.get(i).setPreferredSize(new Dimension(280, 280));
         }
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 16; i++) {
             liquorImageTextContainerList.add(new Container());
             liquorImageTextContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             liquorImageTextContainerList.get(i).setSize(280, 280);
         }
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 16; i++) {
             liquorButtonContainerList.add(new Container());
             liquorButtonContainerList.get(i).setLayout(new GridLayout(1, 1, 0, 0));
             liquorButtonContainerList.get(i).setSize(280, 280);
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             menuRowContainerList.add(new Container());
             menuRowContainerList.get(i).setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         }
 
-        menuSectionContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-        menuSectionContainer.setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT - 80));
+        menuSectionPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        menuSectionPanel.setPreferredSize(new Dimension(Main.WIDTH, Main.HEIGHT + 420));
+        menuSectionPanel.setBackground(a.burgundy);
+
+        menuScrollPane = new JScrollPane(menuSectionPanel);
+        menuScrollPane.setSize(Main.WIDTH, Main.HEIGHT - 80);
+        menuScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        menuScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        menuScrollPane.getVerticalScrollBar().setUnitIncrement(5);
+        menuScrollPane.getVerticalScrollBar().setBackground(a.burgundy);
+        menuScrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        menuScrollPane.getVerticalScrollBar().setBorder(null);
+        menuScrollPane.getVerticalScrollBar().setFocusable(false);
+        menuScrollPane.setBackground(a.burgundy);
+        menuScrollPane.setBorder(null);
+        verticalScrollBar = menuScrollPane.getVerticalScrollBar();
 
         footerPanel.setLayout(new GridLayout(1, 4, 0, 0));
         footerPanel.setBackground(a.burgundy);
