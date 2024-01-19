@@ -56,6 +56,7 @@ public class ConfirmView {
         contentPanel.add(p.footerPanel, BorderLayout.SOUTH);
     }
 
+    // shows the liquor ordered
     public void showOrder(LinkedList<LinkedList<Object>> orderList) {
         int orderQuantity;
         int menuID;
@@ -83,7 +84,6 @@ public class ConfirmView {
                 break;
             }
         }
-
 
         repaint(p.orderScrollPane);
     }
@@ -240,9 +240,12 @@ public class ConfirmView {
             orderTotal += (int) order.get(7);
         }
 
-        c.orderTotalText.setText("<html><div style='text-align: right;'>" +
+        c.orderTotalText.setText("<html><div style='text-align: left;'>" +
+                "<font style='font-family:" +
+                a.lora.getFamily() +
+                "; font-size:39pt; font-weight:normal;'><b>" +
                 "PHP " + String.format("%,d", orderTotal) + ".00" +
-                "</div></html>"
+                "<b></font></div></html>"
         );
     }
 
@@ -257,6 +260,7 @@ public class ConfirmView {
         });
     }
 
+    // custom button functionality for the quantity selector
     private static MouseListener createQuantityMouseListener(PanelFactory p, ComponentFactory c, AssetFactory a) {
         return new MouseListener() {
             @Override
@@ -268,6 +272,24 @@ public class ConfirmView {
             public void mousePressed(MouseEvent e) {
                 JLabel button = (JLabel) e.getSource();
 
+                // highlight button
+                for (LinkedList<Object> order : orderInfoList) {
+                    if (!order.contains(button)) {
+                        continue;
+                    }
+
+                    if (button == order.get(3)) {
+                        button.setIcon(a.resizeIcon(a.decreaseSelectedButtonIcon, 60, 60));
+                    } else if (button == order.get(5)) {
+                        button.setIcon(a.resizeIcon(a.increaseSelectedButtonIcon, 60, 60));
+                    } else if (button == order.get(2)) {
+                        button.setIcon(a.resizeIcon(a.removeSelectedButtonIcon, 60, 60));
+                    }
+
+                    break;
+                }
+
+                // call respective method for the buttons
                 for (LinkedList<Object> order : orderInfoList) {
                     if (!order.contains(button)) {
                         continue;
@@ -294,6 +316,7 @@ public class ConfirmView {
             public void mouseEntered(MouseEvent e) {
                 JLabel button = (JLabel) e.getSource();
 
+                // highlight button
                 for (LinkedList<Object> order : orderInfoList) {
                     if (!order.contains(button)) {
                         continue;
@@ -315,6 +338,7 @@ public class ConfirmView {
             public void mouseExited(MouseEvent e) {
                 JLabel button = (JLabel) e.getSource();
 
+                // highlight button
                 for (LinkedList<Object> order : orderInfoList) {
                     if (!order.contains(button)) {
                         continue;
@@ -369,7 +393,6 @@ public class ConfirmView {
                     }
 
                     JLabel button = (JLabel) order.get(5);
-
                     if (!button.isEnabled()) {
                         button.setEnabled(true);
                     }
@@ -380,8 +403,8 @@ public class ConfirmView {
                     orderQuantityText.setText(String.valueOf(order.getLast()));
 
                     JLabel liquorTotalText = (JLabel) order.get(8);
-
                     liquorTotalText.setText("PHP " + String.format("%,d", (int) order.get(6) * orderQuantity) + ".00");
+
                     order.set(7, ((int) order.get(6) * orderQuantity));
 
                     showOrderTotal();
@@ -404,7 +427,6 @@ public class ConfirmView {
                     }
 
                     JLabel button = (JLabel) order.get(3);
-
                     if (!button.isEnabled()) {
                         button.setEnabled(true);
                     }
@@ -412,12 +434,11 @@ public class ConfirmView {
                     order.set(10, orderQuantity);
 
                     JLabel orderQuantityText = (JLabel) order.get(4);
-
                     orderQuantityText.setText(String.valueOf(order.getLast()));
 
                     JLabel liquorTotalText = (JLabel) order.get(8);
-
                     liquorTotalText.setText("PHP " + String.format("%,d", (int) order.get(6) * orderQuantity) + ".00");
+
                     order.set(7, ((int) order.get(6) * orderQuantity));
 
                     showOrderTotal();
@@ -446,6 +467,8 @@ public class ConfirmView {
         };
     }
 
+
+    // custom button functionality for the ui
     private static MouseListener createUIMouseListener(ComponentFactory c, AssetFactory a) {
         return new MouseListener() {
             @Override
@@ -457,6 +480,9 @@ public class ConfirmView {
             public void mousePressed(MouseEvent e) {
                 JLabel button = (JLabel) e.getSource();
 
+                highlightButton(button, a.burgundy, a.uiButtonSelectedIconList);
+
+                // call respective methods for the buttons
                 if (button == c.returnButton) {
                     Main.showMenuView(orderInfoList);
                 } else if (button == c.confirmOrderButton) {
