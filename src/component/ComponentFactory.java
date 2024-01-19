@@ -86,18 +86,18 @@ public class ComponentFactory {
         orderButton.setBackground(a.burgundy);
         orderButton.setForeground(a.cocoa);
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 16; i++) {
             liquorIndicatorList.add(new JLabel());
             liquorIndicatorList.get(i).setIcon(a.resizeIcon(a.menuButtonIcon, 280, 280));
         }
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 16; i++) {
             liquorImageList.add(new JLabel());
             liquorImageList.get(i).setFocusable(false);
             liquorImageList.get(i).setBorder(null);
         }
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 16; i++) {
             liquorNameList.add(new JLabel());
             liquorNameList.get(i).setFont(a.lora.deriveFont(Font.BOLD, 18f));
             liquorNameList.get(i).setPreferredSize(new Dimension(320, 60));
