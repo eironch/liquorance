@@ -70,7 +70,7 @@ public class ConfirmView {
             menuID = (int) order.getFirst();
             orderQuantity = (int) order.getLast();
 
-            for (LinkedList<Object> liquor : m.cocktailMenuInfoList) {
+            for (LinkedList<Object> liquor : m.menuInfoList) {
                 if (!liquor.getFirst().equals(menuID)) {
                     continue;
                 }
