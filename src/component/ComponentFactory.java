@@ -77,7 +77,7 @@ public class ComponentFactory {
         returnButton.setBackground(a.burgundy);
         returnButton.setForeground(a.cocoa);
 
-        orderButton.setText("Order");
+        orderButton.setText("Order (0)");
         orderButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(1), 200, 60));
         orderButton.setPreferredSize(new Dimension(200,60));
         orderButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
@@ -118,7 +118,7 @@ public class ComponentFactory {
         returnButton.setFocusable(false);
         returnButton.setBorder(null);
 
-        orderButton.setText("Order");
+        orderButton.setText("Order (0)");
         orderButton.setIcon(a.resizeIcon(a.uiButtonIconList.get(1), 200, 60));
         orderButton.setPreferredSize(new Dimension(200,60));
         orderButton.setFont(a.lora.deriveFont(Font.BOLD, 20f));
@@ -141,7 +141,6 @@ public class ComponentFactory {
         liquorForegroundName.setVerticalAlignment(JLabel.BOTTOM);
         liquorForegroundName.setForeground(a.cocoa);
 
-        liquorFlavorText.setFont(a.lora.deriveFont(17f));
         liquorFlavorText.setPreferredSize(new Dimension(450, 120));
         liquorFlavorText.setHorizontalAlignment(JLabel.RIGHT);
         liquorFlavorText.setVerticalAlignment(JLabel.TOP);
@@ -152,18 +151,15 @@ public class ComponentFactory {
         liquorPriceText.setVerticalAlignment(JLabel.TOP);
         liquorPriceText.setForeground(a.cocoa);
 
-        liquorCategoryText.setFont(a.lora.deriveFont(Font.BOLD, 24f));
         liquorCategoryText.setHorizontalAlignment(JLabel.LEFT);
         liquorCategoryText.setVerticalAlignment(JLabel.BOTTOM);
         liquorCategoryText.setForeground(a.cocoa);
 
-        liquorDescriptionText.setFont(a.lora.deriveFont(17f));
         liquorDescriptionText.setPreferredSize(new Dimension(450, 120));
         liquorDescriptionText.setHorizontalAlignment(JLabel.LEFT);
         liquorDescriptionText.setVerticalAlignment(JLabel.TOP);
         liquorDescriptionText.setForeground(a.cocoa);
 
-        liquorIngredientsText.setFont(a.lora.deriveFont(17f));
         liquorIngredientsText.setPreferredSize(new Dimension(450, 120));
         liquorIngredientsText.setHorizontalAlignment(JLabel.LEFT);
         liquorIngredientsText.setVerticalAlignment(JLabel.TOP);
@@ -217,7 +213,6 @@ public class ComponentFactory {
         orderTotalContext.setFont(a.lora.deriveFont(40f));
         orderTotalContext.setForeground(a.cocoa);
 
-        orderTotalText.setFont(a.lora.deriveFont(Font.BOLD, 40f));
         orderTotalText.setForeground(a.cocoa);
 
         confirmOrderButton.setText("Confirm Order");
