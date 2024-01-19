@@ -51,8 +51,16 @@ public class AssetFactory {
         cocktailIconList.add(new ImageIcon("media/menuIcon/whiteRussianIcon.png"));
         cocktailIconList.add(new ImageIcon("media/menuIcon/screwdriverIcon.png"));
         cocktailIconList.add(new ImageIcon("media/menuIcon/tomCollinsIcon.png"));
-        cocktailIconList.add(new ImageIcon("media/menuIcon/zombieIcon.png"));
         cocktailIconList.add(new ImageIcon("media/menuIcon/sangriaIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/mojitoIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/french75Icon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/margaritaIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/oldFashionedIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/mintJulepIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/robRoyIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/daiquiriIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/boulevardierIcon.png"));
+        cocktailIconList.add(new ImageIcon("media/menuIcon/beesKneesIcon.png"));
 
         cocktailCenteredIconList.add(
                 new ImageIcon("media/menuCenteredIcon/darkAndStormyCenteredIcon.png")
@@ -73,10 +81,35 @@ public class AssetFactory {
                 new ImageIcon("media/menuCenteredIcon/tomCollinsCenteredIcon.png")
         );
         cocktailCenteredIconList.add(
-                new ImageIcon("media/menuCenteredIcon/zombieCenteredIcon.png")
+                new ImageIcon("media/menuCenteredIcon/sangriaCenteredIcon.png")
+        );
+
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/mojitoCenteredIcon.png")
         );
         cocktailCenteredIconList.add(
-                new ImageIcon("media/menuCenteredIcon/sangriaCenteredIcon.png")
+                new ImageIcon("media/menuCenteredIcon/french75CenteredIcon.png")
+        );
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/margaritaCenteredIcon.png")
+        );
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/oldFashionedCenteredIcon.png")
+        );
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/mintJulepCenteredIcon.png")
+        );
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/robRoyCenteredIcon.png")
+        );
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/daiquiriCenteredIcon.png")
+        );
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/boulevardierCenteredIcon.png")
+        );
+        cocktailCenteredIconList.add(
+                new ImageIcon("media/menuCenteredIcon/beesKneesCenteredIcon.png")
         );
 
         uiButtonIconList.add(new ImageIcon("media/uiIcon/uiButton0Icon.png"));
