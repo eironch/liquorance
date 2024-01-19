@@ -302,7 +302,7 @@ public class LiquorView {
 
                     Main.showConfirmView(orderList);
                 } else if (button == c.cancelButton) {
-                    Main.showMenuView();
+                    Main.showMenuView(orderList);
                 } else if (button == c.confirmButton) {
                     addToOrder();
                 }
