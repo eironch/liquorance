@@ -57,14 +57,18 @@ public class Main {
 
     public static void showMenuView() {
         CardLayout cardLayout = (CardLayout) views.getLayout();
+
+        menuView.updateMenuView();
+
         cardLayout.show(views, "menu");
     }
 
     public static void showMenuView(LinkedList<LinkedList<Object>> orderInfoList) {
         CardLayout cardLayout = (CardLayout) views.getLayout();
-        cardLayout.show(views, "menu");
 
         menuView.updateOrder(orderInfoList);
+
+        cardLayout.show(views, "menu");
     }
 
     public static void showLiquorView(LinkedList<LinkedList<Object>> orderList, int menuID) {
