@@ -1,7 +1,7 @@
 package main;
 
 import asset.AssetFactory;
-import quantity.LiquorView;
+import view.LiquorView;
 import view.ConfirmView;
 import view.MenuView;
 import view.QueueView;
@@ -24,6 +24,15 @@ public class Main {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            frame.add(views);
+            frame.setIconImage(a.logoIcon.getImage());
+            frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frame.setUndecorated(true);
+            frame.setResizable(false);
+            frame.setVisible(true);
+
             menuView = new MenuView(frame);
             confirmView = new ConfirmView(frame);
             liquorView = new LiquorView(frame);
@@ -38,15 +47,6 @@ public class Main {
             views.add(queueView.contentPanel, "queue");
 
             showTitleView();
-
-            frame.add(views);
-            frame.setIconImage(a.logoIcon.getImage());
-            frame.setBounds(320, 140, Main.WIDTH, Main.HEIGHT);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//          frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frame.setUndecorated(true);
-            frame.setResizable(false);
-            frame.setVisible(true);
         });
     }
 
@@ -81,7 +81,6 @@ public class Main {
         confirmView.showOrder(orderList);
 
         cardLayout.show(views, "confirm");
-
     }
 
     public static void showQueueView(LinkedList<LinkedList<Object>> orderInfoList, int orderTotal) {
